@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 import com.example.sirius.codeforcesmobile.R;
 
-public class NewsFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.news_fragment, null);
+        return inflater.inflate(R.layout.notification_fragment, null);
     }
 }
