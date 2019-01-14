@@ -8,8 +8,12 @@
     android:id="@+id/relativeLayout">
 
     <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:src="@drawable/ic_cf"
         android:id="@+id/codeforcesImage"
         />
@@ -18,54 +22,72 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/codeforcesImage">
+        android:layout_below="@+id/codeforcesImage"
+        android:layout_above="@id/buttonLayout">
 
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
 
         <ImageButton
-            android:scaleType="centerCrop"
+            android:id="@+id/imageButtonContest"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_contest"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            android:onClick="onContest"/>
+            android:onClick="onContest"
+            android:background="#00000000"/>
 
         <ImageButton
-            android:scaleType="centerCrop"
+            android:id="@+id/imageButtonSearch"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_search"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            android:onClick="onSearch"/>
+            android:onClick="onSearch"
+            android:background="#00000000"/>
 
         <ImageButton
-            android:scaleType="centerCrop"
+            android:id="@+id/imageButtonNews"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_news"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            android:onClick="onNews"/>
+            android:onClick="onNews"
+            android:background="#00000000"/>
 
         <ImageButton
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_push"
+            android:id="@+id/imageButtonNotification"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_notification"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            android:onClick="onNotification"/>
+            android:onClick="onNotification"
+            android:background="#00000000"/>
 
         <ImageButton
-            android:scaleType="centerInside"
+            android:id="@+id/imageButtonProfile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_profile"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
-            android:onClick="onProfile"/>
+            android:onClick="onProfile"
+            android:background="#00000000"/>
     </LinearLayout>
 </RelativeLayout>
