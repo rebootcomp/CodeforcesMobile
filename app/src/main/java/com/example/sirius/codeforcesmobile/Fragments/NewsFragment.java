@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class NewsFragment extends Fragment {
 
     MyRecyclerViewAdapter adapter;
-    TextView textView;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,14 +29,6 @@ public class NewsFragment extends Fragment {
         View myFragmentView = inflater.inflate(R.layout.news_fragment, null);
 
 
-        Button button = myFragmentView.findViewById(R.id.button);
-        textView = myFragmentView.findViewById(R.id.textView);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                textView.setText("klkl");
-            }
-        });
-
         // data to populate the RecyclerView with
         ArrayList<String> animalNames = new ArrayList<>();
         animalNames.add("Horse");
@@ -45,14 +36,28 @@ public class NewsFragment extends Fragment {
         animalNames.add("Camel");
         animalNames.add("Sheep");
         animalNames.add("Goat");
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
 
         // set up the RecyclerView
-        RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleView);
+        RecyclerView recyclerView = getActivity().findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyRecyclerViewAdapter(getContext(), animalNames);
         //adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-
         return myFragmentView;
     }
 }
