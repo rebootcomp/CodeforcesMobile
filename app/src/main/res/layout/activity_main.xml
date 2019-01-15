@@ -10,7 +10,7 @@
     <ImageView
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
@@ -22,8 +22,9 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/buttonLayout"
         android:layout_below="@+id/codeforcesImage"
-        android:layout_above="@id/buttonLayout">
+        android:background="#eeeeee">
 
     </FrameLayout>
 
@@ -33,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:background="@color/colorWhite">
+        android:background="#eeeeee">
 
         <ImageButton
             android:id="@+id/imageButtonContest"
