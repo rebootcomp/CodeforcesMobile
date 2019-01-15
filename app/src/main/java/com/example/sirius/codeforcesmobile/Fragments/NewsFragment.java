@@ -54,7 +54,7 @@ public class NewsFragment extends Fragment implements MyRecyclerViewAdapter.Item
         animalNames.add("Goat");
 
         // set up the RecyclerView
-        RecyclerView recyclerView = getActivity().findViewById(R.id.recycleView);
+        RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyRecyclerViewAdapter(getContext(), animalNames);
         adapter.setClickListener(this);
