@@ -12,13 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.MyRecyclerViewAdapter;
 import com.example.sirius.codeforcesmobile.R;
 
 import java.util.ArrayList;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements MyRecyclerViewAdapter.ItemClickListener {
 
     MyRecyclerViewAdapter adapter;
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -56,8 +57,12 @@ public class NewsFragment extends Fragment {
         RecyclerView recyclerView = getActivity().findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyRecyclerViewAdapter(getContext(), animalNames);
-        //adapter.setClickListener(this);
+        adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;
+    }
+
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getActivity(), "You clicked "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
     }
 }
