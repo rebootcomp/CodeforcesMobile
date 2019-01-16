@@ -1,3 +1,10 @@
 .idea/
 .gradle/
-.gradle/4.6/
+.gradle/4.6/fileHashes/fileHashes.bin
+.gradle/4.6/fileHashes/fileHashes.lock
+.gradle/4.6/javaCompile/classAnalysis.bin
+.gradle/4.6/javaCompile/javaCompile.lock
+.gradle/4.6/javaCompile/taskHistory.bin
+.gradle/4.6/taskHistory/taskHistory.bin
+.gradle/4.6/taskHistory/taskHistory.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
