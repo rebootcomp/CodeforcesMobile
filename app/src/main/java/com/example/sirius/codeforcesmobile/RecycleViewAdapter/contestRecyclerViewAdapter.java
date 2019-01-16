@@ -1,4 +1,4 @@
-package com.example.sirius.codeforcesmobile;
+package com.example.sirius.codeforcesmobile.RecycleViewAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,16 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.sirius.codeforcesmobile.R;
+
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecyclerViewAdapter.ViewHolder> {
 
     private List<String> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public MyRecyclerViewAdapter(Context context, List<String> data) {
+    public contestRecyclerViewAdapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -24,7 +26,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recycler_item, parent, false);
+        View view = mInflater.inflate(R.layout.contest_recycler_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,7 +50,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.textViewTitle);
+            myTextView = itemView.findViewById(R.id.textViewContest);
             itemView.setOnClickListener(this);
         }
 
