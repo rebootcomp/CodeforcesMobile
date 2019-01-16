@@ -1,0 +1,4 @@
+#Wed Jan 16 14:16:49 MSK 2019
+base.0=/Users/artem/Desktop/codefocesmob/CodeforcesMobile/app/build/intermediates/transforms/dexMerger/release/0
+path.0=classes.dex
+renamed.0=classes.dex
