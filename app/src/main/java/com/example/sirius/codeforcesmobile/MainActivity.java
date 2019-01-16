@@ -1,6 +1,7 @@
 package com.example.sirius.codeforcesmobile;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -47,8 +48,23 @@ public class MainActivity extends AppCompatActivity {
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
+
+        firstStartActivity();
     }
 
+    private void firstStartActivity(){
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            //show start activity
+
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).apply();
+    }
     public void onContest(View view) {
         resetButton();
         imageButtonContest.setImageDrawable(getDrawable(R.drawable.ic_contest_touch));
