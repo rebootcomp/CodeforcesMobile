@@ -46,8 +46,8 @@
                 android:layout_marginTop="44dp"
                 android:background="@drawable/edit_text_style"/>
 
-            <ImageView
-                android:id="@+id/imagebuttonbackgournd"
+            <ImageButton
+                android:id="@+id/Enterbutton"
                 android:layout_width="88dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="198dp"
