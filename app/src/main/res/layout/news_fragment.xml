@@ -5,18 +5,12 @@
     android:layout_height="match_parent"
     android:background="#eeeeee">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical"
                 android:id="@+id/recycleViewNews"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
-        </ScrollView>
-    </LinearLayout>
+
 </RelativeLayout>

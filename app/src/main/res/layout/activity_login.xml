@@ -61,6 +61,7 @@
                 android:background="@drawable/edit_text_style" />
 
             <ImageButton
+                android:onClick="onEnter"
                 android:id="@+id/Enterbutton"
                 android:layout_width="88dp"
                 android:layout_height="30dp"
@@ -101,6 +102,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="85dp"
                 android:text="Войти без авторизации"
+                android:onClick="onEnterWithout"
                 android:textColor="#0000cc"
                 android:textSize="15sp" />
 
