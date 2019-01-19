@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class ContestFragment extends Fragment implements contestRecyclerViewAdapter.ItemClickListener {
 
+
     contestRecyclerViewAdapter adapter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
