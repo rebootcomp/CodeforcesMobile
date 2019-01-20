@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
@@ -42,18 +41,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/second_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/handle"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/first_name"
-            android:text="Family"
-            android:textColor="#333333"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/Rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +54,7 @@
             android:id="@+id/nowRatingView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/second_name"
+            android:layout_below="@+id/first_name"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/Rating"
@@ -108,7 +95,7 @@
             android:textSize="18sp"/>
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/maxRankView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/maxRatingView"
@@ -117,7 +104,7 @@
             android:layout_toEndOf="@+id/maxRank"
             android:text="max_rank"
             android:textColor="#333333"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/contribution"

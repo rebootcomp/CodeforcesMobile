@@ -1,3 +1,4 @@
+
 package com.example.sirius.codeforcesmobile;
 
 import android.annotation.SuppressLint;
@@ -99,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
         fragment_search = new SearchFragment();
 
 
-
-
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("RETROFIT", userResult.toString());
                 if(userResult!=null) {
                     Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -140,4 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).apply();
     }
 
+    public void onContent(View view) {
+        Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
+    }
 }

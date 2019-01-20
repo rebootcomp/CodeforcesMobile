@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.ItemClickListener {
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     newsRecyclerViewAdapter adapter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -32,23 +34,8 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
         animalNames.add("Horse");
         animalNames.add("Cow");
         animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
+
+
 
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewNews);

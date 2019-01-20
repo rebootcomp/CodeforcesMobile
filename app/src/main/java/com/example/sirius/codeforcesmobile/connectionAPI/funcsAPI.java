@@ -39,7 +39,7 @@ public class funcsAPI {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     List<UserResult> userResult = response.body().getResult();
-                    Log.d("RETROFIT",response.body().getResult());
+                   // Log.d("RETROFIT",response.body().getResult());
                     if(response.body().getStatus()==null){
                         Log.d("RETROFIT",response.body().getStatus());
                     }

@@ -51,8 +51,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:textColor="#333333"
-            android:text="@string/content1"
-
+            android:text="@string/content"
             android:textSize="18sp" />
 
 
