@@ -49,6 +49,7 @@ public class funcsAPI {
 
                     // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
                     callback.call(userResult);
+
                 }
 
                 @Override

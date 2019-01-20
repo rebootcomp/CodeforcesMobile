@@ -12,15 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sirius.codeforcesmobile.R;
-import com.example.sirius.codeforcesmobile.RecycleViewAdapter.newsRecyclerViewAdapter;
+import com.example.sirius.codeforcesmobile.RecycleViewAdapter.notificationRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-public class NotificationFragment extends Fragment implements newsRecyclerViewAdapter.ItemClickListener {
+public class NotificationFragment extends Fragment implements notificationRecyclerViewAdapter.ItemClickListener {
 
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    newsRecyclerViewAdapter adapter;
+    notificationRecyclerViewAdapter adapter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +40,7 @@ public class NotificationFragment extends Fragment implements newsRecyclerViewAd
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewNotification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new newsRecyclerViewAdapter(getContext(), animalNames);
+        adapter = new notificationRecyclerViewAdapter(getContext(), animalNames);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;

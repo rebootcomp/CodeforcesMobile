@@ -4,6 +4,8 @@ package com.example.sirius.codeforcesmobile;
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -109,8 +111,14 @@ public class MainActivity extends AppCompatActivity {
             funcsAPI api = new funcsAPI();
 
             api.getUsers("rebootcomp", users -> {
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
                 userResult = users;
+                db.execSQL();
                 Log.d("RETROFIT", userResult.toString());
+                // insert into LOCAL DB (variant1)
+                // insert into fragment in bundle(variant2)
+                // insert into sherperf (variant3)
                 if(userResult!=null) {
                     Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
 
@@ -125,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void callAfterRetro() {
+
+    }
+
 
     private void firstStartActivity(){
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)

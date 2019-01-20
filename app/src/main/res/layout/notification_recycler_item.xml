@@ -14,7 +14,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/round_name"
+            android:id="@+id/round_nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Round_name"
@@ -25,7 +25,7 @@
             android:id="@+id/text_new_tutorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/round_name"
+            android:layout_below="@+id/round_nameTextView"
             android:layout_marginTop="5dp"
             android:text="Появился разбор задач"
             android:textColor="#333333"

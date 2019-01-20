@@ -26,7 +26,7 @@ public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notifi
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.contest_recycler_item, parent, false);
+        View view = mInflater.inflate(R.layout.notification_recycler_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -34,7 +34,7 @@ public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notifi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        holder.round_nameTextView.setText(animal);
     }
 
     // total number of rows
@@ -46,11 +46,11 @@ public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notifi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView round_nameTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.textViewContest);
+            round_nameTextView = itemView.findViewById(R.id.round_nameTextView);
             itemView.setOnClickListener(this);
         }
 

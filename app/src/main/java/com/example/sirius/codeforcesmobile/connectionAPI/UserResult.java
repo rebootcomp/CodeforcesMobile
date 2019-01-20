@@ -1,9 +1,13 @@
 package com.example.sirius.codeforcesmobile.connectionAPI;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserResult {
+public class UserResult implements Parcelable
+{
 
     @SerializedName("lastName")
     @Expose
@@ -182,4 +186,13 @@ public class UserResult {
         this.maxRank = maxRank;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }
