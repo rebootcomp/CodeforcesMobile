@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.sirius.codeforcesmobile.R;
-
 public class ProfileFragment extends Fragment {
     TextView rank;
     TextView handle;
