@@ -44,6 +44,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setProfile(String item) {
-        
+
     }
 }
