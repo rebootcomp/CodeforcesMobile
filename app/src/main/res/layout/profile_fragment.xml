@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rank"
             android:layout_marginTop="0dp"
+            android:text="Handle"
             android:textColor="#333333"
             android:textSize="32sp" />
 
