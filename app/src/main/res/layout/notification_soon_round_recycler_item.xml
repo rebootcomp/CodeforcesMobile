@@ -13,6 +13,46 @@
         android:layout_height="match_parent"
         android:padding="10dp">
 
+        <TextView
+            android:id="@+id/round_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Round_name"
+            android:textColor="#333333"
+            android:textSize="34sp"/>
+
+        <TextView
+            android:id="@+id/text_soon_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/round_name"
+            android:layout_marginTop="5dp"
+            android:text="До раунда:"
+            android:textColor="#333333"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/time_to_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/round_name"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/text_soon_round"
+            android:text="Time"
+            android:textColor="#333333"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/date_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_soon_round"
+            android:layout_marginTop="20dp"
+            android:text="date"
+            android:textColor="#333333"
+            android:textSize="18sp"/>
+
     </RelativeLayout>
 
 
