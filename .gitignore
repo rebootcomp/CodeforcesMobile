@@ -15,4 +15,4 @@
 .gradle/4.6/fileHashes/fileHashes.lock
 .gradle/4.6/taskHistory/taskHistory.bin
 .gradle/4.6/taskHistory/taskHistory.lock
-
+.externalNativeBuild
