@@ -17,57 +17,8 @@ public class funcsAPI {
     private Retrofit retrofit;
     private UserInterface userInterface;
 
-//    public static funcsAPI getInstance(){
-//        if(mfuncsAPI==null){
-//            mfuncsAPI = new funcsAPI();
-//        }
-//        return mfuncsAPI;
-//    }
 
-    public void connect() {
-       // HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        //interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-               // .addInterceptor(interceptor);
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://codeforces.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client.build())
-                .build();
-        userInterface = retrofit.create(UserInterface.class);
-    }
-
-    public Retrofit getRetrofit(){
-        return retrofit;
-    }
-
-    public UserInterface getInterface() {
-        return userInterface;
-    }
-
-     public User getUser(String handle){
-//        Call<ApiListResponse<User>> call = getInterface().getUser(handle);
-//        Log.d("RETROFIT", "BEFORE REQUEST");
-//         final User[] newUser = {new User()};
-//        call.enqueue(new Callback<ApiListResponse<User>>() {
-//            @Override
-//            public  void onResponse(Call<ApiListResponse<User>> call, Response<ApiListResponse<User>> response) {
-//                 newUser[0] = response.body().getResult().get(0);
-//                Log.d("RETROFIT", String.valueOf(response));
-//                Log.d("RETROFIT", String.valueOf(newUser[0].handle));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiListResponse<User>> call, Throwable t) {
-//
-//            }
-//        });
-//        return  newUser[0];
-         return null;
-    }
-
-    public void getUsers(String handles/*, UserResult testResult*/, final com.example.sirius.codeforcesmobile.Callback callback){
+    public void getUsers(String handles, final com.example.sirius.codeforcesmobile.Callback callback){
 
         String BASE_URL = "http://codeforces.com";
 
@@ -76,7 +27,7 @@ public class funcsAPI {
         Call<User> call = null;
 
         try {
-            call = service.getUsers("rebootcomp");
+            call = service.getUsers(handles);
         } catch (Exception e) {
             Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
         }
@@ -90,7 +41,7 @@ public class funcsAPI {
                     List<UserResult> userResult = response.body().getResult();
                     /*testResult*/ //response.body().getResult();
                     Log.d("RETROFIT", String.valueOf(response));
-                    Log.d("RETROFIT", String.valueOf(response.body().getResult().get(0).getMaxRating()));
+
                     // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
                     callback.call(userResult);
                 }
@@ -106,40 +57,6 @@ public class funcsAPI {
             Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
         }
 
-        //System.out.println("df");
-       // return ((Callback<User>) testCreate);
-//        return userResult;
     }
 
-//    public List<UserResult> getUserResult(){
-//        return userResult;
-//    }
-
-
-
-
-
-    //public void getResponse() {
-       /*user.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("response " + response.body());
-                } else {
-                    System.out.println("response code " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-
-
-
-
-
-
-        });*/
-
-    //}
 }

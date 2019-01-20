@@ -76,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
       //  Thread thr = new Thread();
             funcsAPI api = new funcsAPI();
-            api.connect();
+         //   api.connect();
             api.getUsers("rebootcomp", users -> {
                 userResult = users;
                 Log.d("RETROFIT", users.get(0).getHandle());
+                Toast.makeText(getApplicationContext(),userResult.get(0).getHandle(),Toast.LENGTH_SHORT).show();
             });
+
 
 //            UserResult user = api.getUserResult().get(0);
 //            Log.d("RETROFIT",user.getHandle());

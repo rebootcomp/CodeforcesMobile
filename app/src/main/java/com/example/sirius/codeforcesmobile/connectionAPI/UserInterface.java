@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface UserInterface {
     @GET("/api/user.info")
-    Call<User> getUsers(@Query("handles") String handle);
+    Call<User> getUsers(@Query("handles") String handles);
     @GET("/api/get")
     Call<List<User>> getUserList(@Query("handles") String handles);
 }
