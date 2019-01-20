@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.sirius.codeforcesmobile.R;
 import com.example.sirius.codeforcesmobile.RecycleViewAdapter.newsRecyclerViewAdapter;
 
 import java.util.ArrayList;
