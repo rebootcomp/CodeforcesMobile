@@ -2,6 +2,7 @@ package com.example.sirius.codeforcesmobile.connectionAPI;
 
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -15,14 +16,13 @@ public class funcsAPI {
     private static funcsAPI mfuncsAPI;
     private Retrofit retrofit;
     private UserInterface userInterface;
-    public List<UserResult> userResult = null;
 
-    public static funcsAPI getInstance(){
-        if(mfuncsAPI==null){
-            mfuncsAPI = new funcsAPI();
-        }
-        return mfuncsAPI;
-    }
+//    public static funcsAPI getInstance(){
+//        if(mfuncsAPI==null){
+//            mfuncsAPI = new funcsAPI();
+//        }
+//        return mfuncsAPI;
+//    }
 
     public void connect() {
        // HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -67,48 +67,53 @@ public class funcsAPI {
          return null;
     }
 
-    public void getUsers(String handles/*, UserResult testResult*/){
+    public void getUsers(String handles/*, UserResult testResult*/, final com.example.sirius.codeforcesmobile.Callback callback){
 
         String BASE_URL = "http://codeforces.com";
 
         Retrofit client = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         UserInterface service = client.create(UserInterface.class);
+        Call<User> call = null;
 
-        //try {
-        //} catch (Exception e) {
-          //  Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
-       // }
+        try {
+            call = service.getUsers("rebootcomp");
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+        }
         Log.d("RETROFIT", "BEFORE REQUEST");
 
 
-        funcsAPI.getInstance().getInterface().getUsers("rebootcomp").enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                userResult = response.body().getResult();
-                /*testResult*/ //response.body().getResult();
-                Log.d("RETROFIT", String.valueOf(response));
-                Log.d("RETROFIT", String.valueOf(response.body().getResult().get(0).getMaxRating()));
-               // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+        try {
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    List<UserResult> userResult = response.body().getResult();
+                    /*testResult*/ //response.body().getResult();
+                    Log.d("RETROFIT", String.valueOf(response));
+                    Log.d("RETROFIT", String.valueOf(response.body().getResult().get(0).getMaxRating()));
+                    // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                    callback.call(userResult);
+                }
 
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.d("RETROFIT", t.getLocalizedMessage());
+                }
 
 
-
-        });
+            });
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+        }
 
         //System.out.println("df");
        // return ((Callback<User>) testCreate);
 //        return userResult;
     }
 
-    public List<UserResult> getUserResult(){
-        return userResult;
-    }
+//    public List<UserResult> getUserResult(){
+//        return userResult;
+//    }
 
 
 

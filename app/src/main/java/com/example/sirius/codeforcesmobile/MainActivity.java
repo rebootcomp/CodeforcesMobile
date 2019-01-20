@@ -32,6 +32,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private List<UserResult> userResult = null;
+
     NewsFragment fragment_news;
     ContestFragment fragment_contest;
     NotificationFragment fragment_notification;
@@ -75,9 +77,13 @@ public class MainActivity extends AppCompatActivity {
       //  Thread thr = new Thread();
             funcsAPI api = new funcsAPI();
             api.connect();
-            api.getUsers("rebootcomp");
-            UserResult user = api.getUserResult().get(0);
-            Log.d("RETROFIT",user.getHandle());
+            api.getUsers("rebootcomp", users -> {
+                userResult = users;
+                Log.d("RETROFIT", users.get(0).getHandle());
+            });
+
+//            UserResult user = api.getUserResult().get(0);
+//            Log.d("RETROFIT",user.getHandle());
             //String text = user.getHandle();
            // Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
 
