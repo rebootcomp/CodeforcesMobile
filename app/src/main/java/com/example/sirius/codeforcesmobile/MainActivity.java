@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.Fragments.ContestFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NewsFragment;
@@ -79,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
         fragment_search = new SearchFragment();
 
 
-
-
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
@@ -107,4 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).apply();
     }
 
+    public void onContent(View view) {
+        Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
+    }
 }

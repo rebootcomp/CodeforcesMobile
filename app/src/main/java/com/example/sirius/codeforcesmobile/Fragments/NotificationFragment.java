@@ -1,19 +1,53 @@
 package com.example.sirius.codeforcesmobile.Fragments;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sirius.codeforcesmobile.R;
+import com.example.sirius.codeforcesmobile.RecycleViewAdapter.newsRecyclerViewAdapter;
 
-public class NotificationFragment extends Fragment {
+import java.util.ArrayList;
+
+public class NotificationFragment extends Fragment implements newsRecyclerViewAdapter.ItemClickListener {
 
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    newsRecyclerViewAdapter adapter;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.notification_fragment, null);
+        // TODO Auto-generated method stub
+        View myFragmentView = inflater.inflate(R.layout.notification_fragment, null);
+
+
+        // data to populate the RecyclerView with
+        ArrayList<String> animalNames = new ArrayList<>();
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+
+
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewNotification);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new newsRecyclerViewAdapter(getContext(), animalNames);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+        return myFragmentView;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 }
