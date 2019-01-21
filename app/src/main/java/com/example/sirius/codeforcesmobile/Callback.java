@@ -5,6 +5,6 @@ import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 
 import java.util.List;
 
-public interface Callback {
-    public void call(List<UserResult> user);
+public interface Callback<T> {
+    public void call(/*List<UserResult>*/T user);
 }

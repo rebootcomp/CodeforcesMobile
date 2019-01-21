@@ -2,30 +2,27 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
+    <android.support.v7.widget.RecyclerView
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        android:id="@+id/recycleViewSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/editText"
+        />
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:layout_toStartOf="@+id/button"
         android:background="@drawable/edit_text_style"
         android:hint="search"
         android:inputType="textPersonName"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:text="Search" />
 </RelativeLayout>
