@@ -107,23 +107,24 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
 
-      //
-            funcsAPI api = new funcsAPI();
+        //
+        funcsAPI api = new funcsAPI();
 
-            api.getUsers("rebootcomp", users -> {
-                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+        api.getUsers("rebootcomp", users -> {
+            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+            List<UserResult> userResult = null;
+            userResult = (List<UserResult>) users;
 
-                userResult = users;
-                db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getHandle()+"', '"+userResult.get(0).getRating().toString()+"');");
-                Log.d("RETROFIT", userResult.toString());
-                // insert into LOCAL DB (variant1)
-                // insert into fragment in bundle(variant2)
-                // insert into sherperf (variant3)
-                if(userResult!=null) {
-                    Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
+            db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName().toString() + "','" + userResult.get(0).getLastName().toString() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank().toString() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');");
+            Log.d("RETROFIT", userResult.toString());
+            // insert into LOCAL DB (variant1)
+            // insert into fragment in bundle(variant2)
+            // insert into sherperf (variant3)
+            if (userResult != null) {
+                Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
 
-                }
-            });
+            }
+        });
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void firstStartActivity(){
+    private void firstStartActivity() {
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
@@ -157,3 +158,4 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
     }
 }
+

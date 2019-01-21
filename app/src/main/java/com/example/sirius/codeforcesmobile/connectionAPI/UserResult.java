@@ -20,10 +20,10 @@ public class UserResult implements Parcelable
     private Integer lastOnlineTimeSeconds;
     @SerializedName("city")
     @Expose
-    private String city;
+    private String city="unused_city";
     @SerializedName("rating")
     @Expose
-    private Integer rating;
+    private Integer rating=0;
     @SerializedName("friendOfCount")
     @Expose
     private Integer friendOfCount;

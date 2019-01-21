@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
         if(query.moveToFirst()){
             do{
                 String name = query.getString(0);
-                int age = query.getInt(1);
+                String age = query.getString(1);
                 handle.setText(name);
             }
             while(query.moveToNext());
