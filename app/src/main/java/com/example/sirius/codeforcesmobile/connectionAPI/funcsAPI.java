@@ -65,4 +65,53 @@ public class funcsAPI {
 
     }
 
+    public void getBlog(String blogEntryId, final com.example.sirius.codeforcesmobile.Callback callback){
+
+        String BASE_URL = "http://codeforces.com";
+
+        Retrofit client = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        BlogInterface service = client.create(BlogInterface.class);
+        Call<Blog> call = null;
+
+        try {
+            call = service.getBlog(blogEntryId);
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+        }
+        Log.d("RETROFIT", "BEFORE REQUEST");
+
+
+        try {
+            call.enqueue(new Callback<Blog>() {
+                @Override
+                public void onResponse(Call<Blog> call, Response<Blog> response) {
+                    BlogResult blogResult = response.body().getResult();
+                    // Log.d("RETROFIT",response.body().getResult());
+                    if(response.body().getStatus()==null){
+                        Log.d("RETROFIT",response.body().getStatus());
+                    }
+
+                    /*testResult*/ //response.body().getResult();
+                    Log.d("RETROFIT", String.valueOf(response));
+
+                    // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                    callback.call(blogResult);
+
+                }
+
+                @Override
+                public void onFailure(Call<Blog> call, Throwable t) {
+
+                }
+
+
+
+
+            });
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+        }
+
+    }
+
 }
