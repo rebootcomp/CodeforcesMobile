@@ -40,8 +40,9 @@ public class funcsAPI {
                 public void onResponse(Call<User> call, Response<User> response) {
                     List<UserResult> userResult = response.body().getResult();
                    // Log.d("RETROFIT",response.body().getResult());
-                    if(response.body().getStatus()==null){
-                        Log.d("RETROFIT",response.body().getStatus());
+                    Log.d("RETROFIT",response.body().getStatus());
+                    if(response.body().getResult()==null){
+                        Log.d("RETROFIT","null pointer");
                     }
 
                     /*testResult*/ //response.body().getResult();
