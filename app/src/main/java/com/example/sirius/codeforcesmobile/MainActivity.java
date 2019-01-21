@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
                 userResult = users;
-                db.execSQL();
+                db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getHandle()+"', '"+userResult.get(0).getRating().toString()+"');");
                 Log.d("RETROFIT", userResult.toString());
                 // insert into LOCAL DB (variant1)
                 // insert into fragment in bundle(variant2)

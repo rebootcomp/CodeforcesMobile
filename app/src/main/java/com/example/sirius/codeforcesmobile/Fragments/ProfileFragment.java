@@ -16,22 +16,22 @@ import com.example.sirius.codeforcesmobile.R;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
-    TextView rank;
-    TextView handle;
-    TextView first_name;
-    TextView nowRatingView;
-    TextView maxRatingView;
-    TextView maxRankView;
-    TextView contributionView;
-    TextView frinedsView;
-    TextView lastVisitWebView;
-    TextView regTimeView;
+    public TextView rank;
+    public TextView handle;
+    public TextView first_name;
+    public TextView nowRatingView;
+    public TextView maxRatingView;
+    public TextView maxRankView;
+    public TextView contributionView;
+    public TextView frinedsView;
+    public TextView lastVisitWebView;
+    public TextView regTimeView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // TODO Auto-generated method stub
-        View myFragmentView = inflater.inflate(R.layout.profile_fragment, null);
+        View myFragmentView = inflater.inflate(R.layout.profile_fragment, container, false);
 
         rank = (TextView)myFragmentView.findViewById(R.id.rank);
         handle = (TextView)myFragmentView.findViewById(R.id.handle);
@@ -43,6 +43,8 @@ public class ProfileFragment extends Fragment {
         frinedsView = (TextView)myFragmentView.findViewById(R.id.frinedsView);
         lastVisitWebView = (TextView)myFragmentView.findViewById(R.id.lastVisitWebView);
         regTimeView = (TextView)myFragmentView.findViewById(R.id.regTimeView);
+
+
         //get data from db
         SQLiteDatabase db = inflater.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
@@ -53,14 +55,13 @@ public class ProfileFragment extends Fragment {
                 String name = query.getString(0);
                 int age = query.getInt(1);
                 handle.setText(name);
-
-                Toast.makeText(inflater.getContext(), "Name: " + name + " Age: " + age, Toast.LENGTH_SHORT).show();
             }
             while(query.moveToNext());
         }
         query.close();
         db.close();
-        return inflater.inflate(R.layout.profile_fragment, null);
+
+        return myFragmentView;
 
     }
 

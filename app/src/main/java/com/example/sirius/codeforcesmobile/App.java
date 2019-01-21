@@ -12,11 +12,9 @@ public class App extends Application {
         //Create db
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (name TEXT, age INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (name TEXT, age TEXT)");
 
-
-        db.execSQL("INSERT INTO users VALUES ('Tom Smith', 23);");
-        db.execSQL("INSERT INTO users VALUES ('John Dow', 31);");
+        //db.execSQL("INSERT INTO users VALUES ('Tom Smith', 23);");
         db.close();
 
     }
