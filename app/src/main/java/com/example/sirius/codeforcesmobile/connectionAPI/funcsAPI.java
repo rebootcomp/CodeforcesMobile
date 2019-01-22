@@ -1,7 +1,9 @@
 package com.example.sirius.codeforcesmobile.connectionAPI;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +54,10 @@ public class funcsAPI {
 
                         // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
                         callback.call(userResult);
+                    }else{
+                        callback.call(null);
+                        Log.d("RETROFIT","Wrong request");
+
                     }
 
                 }
@@ -65,56 +71,59 @@ public class funcsAPI {
             });
         } catch (Exception e) {
             Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+           // Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT);
+
         }
 
     }
 
-    public void getBlog(String blogEntryId, final com.example.sirius.codeforcesmobile.Callback callback){
+    public void getBlog(ArrayList<String> blogEntryId, final com.example.sirius.codeforcesmobile.Callback callback){
 
         String BASE_URL = "http://codeforces.com";
 
         Retrofit client = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         BlogInterface service = client.create(BlogInterface.class);
         Call<Blog> call = null;
-
-        try {
-            call = service.getBlog(blogEntryId);
-        } catch (Exception e) {
-            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
-        }
-        Log.d("RETROFIT", "BEFORE REQUEST");
-
-
-        try {
-            call.enqueue(new Callback<Blog>() {
-                @Override
-                public void onResponse(Call<Blog> call, Response<Blog> response) {
-                    if(response.body().getStatus().equals("OK")) {
-                        BlogResult blogResult = response.body().getResult();
-                        // Log.d("RETROFIT",response.body().getResult());
-
-                        Log.d("RETROFIT", response.body().getStatus());
+        for(int i=0;i<blogEntryId.size();i++) {
+            try {
+                call = service.getBlog(blogEntryId.get(i));
+            } catch (Exception e) {
+                Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+            }
+            Log.d("RETROFIT", "BEFORE REQUEST");
 
 
-                        /*testResult*/ //response.body().getResult();
-                        Log.d("RETROFIT", String.valueOf(response));
+           // try {
+                call.enqueue(new Callback<Blog>() {
+                    @Override
+                    public void onResponse(Call<Blog> call, Response<Blog> response) {
+                        if (response.body()!=null) {
+                            BlogResult blogResult = response.body().getResult();
+                            // Log.d("RETROFIT",response.body().getResult());
 
-                        // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
-                        callback.call(blogResult);
+                            Log.d("RETROFIT", response.body().getStatus());
+
+
+                            /*testResult*/ //response.body().getResult();
+                            Log.d("RETROFIT", String.valueOf(response));
+
+                            // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                            callback.call(blogResult);
+                        }else{
+                            Log.d("RETROFIT","Wrong blogRequest");
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Blog> call, Throwable t) {
-
-                }
-
+                    @Override
+                    public void onFailure(Call<Blog> call, Throwable t) {
+                        Log.d("RETROFIT", "blogWrongRequest");
+                    }
 
 
-
-            });
-        } catch (Exception e) {
-            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+                });
+           // } catch (Exception e) {
+           //     Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+            //}
         }
 
     }

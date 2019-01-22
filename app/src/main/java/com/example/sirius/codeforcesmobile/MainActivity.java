@@ -124,22 +124,30 @@ public class MainActivity extends AppCompatActivity {
 
         funcsAPI api = new funcsAPI();
 
-//        api.getUsers("marsel974", users -> {
-//            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-//            List<UserResult> userResult = null;
-//            userResult = (List<UserResult>) users;
-//            /**доделать ввод в бд**/
-//            db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');'");
-//            Log.d("RETROFIT", userResult.toString());
-//            // insert into LOCAL DB (variant1)
-//            // insert into fragment in bundle(variant2)
-//            // insert into sherperf (variant3)
-//            db.close();
-//        });
+        api.getUsers("marsel974", users -> {
+            if(users!=null) {
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                List<UserResult> userResult = null;
+                userResult = (List<UserResult>) users;
+                /**доделать ввод в бд**/
+                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');");
+                Log.d("RETROFIT", userResult.toString());
+                // insert into LOCAL DB (variant1)
+                // insert into fragment in bundle(variant2)
+                // insert into sherperf (variant3)
 
-        String[] newsList = {"64685", "64613", "64495"};
-       // for (int i = 0; i < 3; i++) {
-            api.getBlog("64495", blog -> {
+            }else{
+                Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ArrayList<String> newsList = new ArrayList<>();
+        newsList.add("64495");
+
+            api.getBlog(newsList, blog -> {
+
+
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
@@ -154,18 +162,19 @@ public class MainActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String Date = sdf.format(date);
+
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
-                //title TEXT,author TEXT,date TEXT,content TEXT
+
                 values.put("title", Title);
                 values.put("author", author);
                 values.put("date", Date);
                 values.put("content", content);
+
                 db.insert("blogs",null,  values);
-                //db.execSQL("INSERT INTO blogs VALUES ('"+Title+"','"+author+"','"+date+"','"+content+"');'");
-                /* Cursor query = db.rawQuery("SELECT * FROM blogs;", null);
-                query.moveToLast();
-                Toast.makeText(getApplicationContext(), query.getString(2) , Toast.LENGTH_LONG).show();*/
+
+                db.close();
+
             });
 
 
@@ -176,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-  //  }
+
+
 
 
 
