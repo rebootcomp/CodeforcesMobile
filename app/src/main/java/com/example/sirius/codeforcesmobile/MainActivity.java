@@ -127,9 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<String> newsList = new ArrayList<>();
         newsList.add("64495");
+
             api.getBlog(newsList, blog -> {
-
-
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
@@ -139,20 +138,19 @@ public class MainActivity extends AppCompatActivity {
                 String content = Jsoup.parse(blogResult.getContent()).text();
                 String author = blogResult.getAuthorHandle();
 
-                long millis = blogResult.getCreationTimeSeconds() * 1000;
+                long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
                 Date date = new Date(millis);
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String Date = sdf.format(date);
-
+                //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
 
                 values.put("title", Title);
                 values.put("author", author);
                 values.put("date", Date);
-                values.put("content", content);
-
+                values.put("gcontent", content);
                 db.insert("blogs",null,  values);
                 db.close();
 
