@@ -41,7 +41,7 @@ public class funcsAPI {
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
-                    if(response.body()!=null) {
+                    if(response.body() != null) {
                         List<UserResult> userResult = response.body().getResult();
                         // Log.d("RETROFIT",response.body().getResult());
                         Log.d("RETROFIT", response.body().getStatus());

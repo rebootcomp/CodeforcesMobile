@@ -1,6 +1,8 @@
 package com.example.sirius.codeforcesmobile.Fragments;
 
 import android.app.Fragment;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -17,6 +19,8 @@ import com.example.sirius.codeforcesmobile.RecycleViewAdapter.newsRecyclerViewAd
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.ItemClickListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -30,17 +34,37 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
 
 
         // data to populate the RecyclerView with
-        ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
+        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<String> authors = new ArrayList<>();
+        ArrayList<String> dates = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
 
+
+        //get data from db
+        SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        Cursor query = db.rawQuery("SELECT * FROM blogs;", null);
+        if(query.moveToFirst()){
+            do{
+                String title = query.getString(0);
+                String author = query.getString(1);
+                String date = query.getString(2);
+                String content = query.getString(3);
+                titles.add(title);
+                authors.add(author);
+                dates.add(date);
+                contents.add(content);
+            }
+            while(query.moveToNext());
+        }
+        query.close();
+        db.close();
 
 
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewNews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new newsRecyclerViewAdapter(getContext(), animalNames);
+        adapter = new newsRecyclerViewAdapter(getContext(),titles, authors, dates, contents);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;

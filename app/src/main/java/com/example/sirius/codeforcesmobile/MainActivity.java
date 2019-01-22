@@ -121,24 +121,25 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
 
+
         funcsAPI api = new funcsAPI();
-
-        api.getUsers(, users -> {
-            if(users!=null) {
-                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-                List<UserResult> userResult = null;
-                userResult = (List<UserResult>) users;
-                /**доделать ввод в бд**/
-                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');");
-                Log.d("RETROFIT", userResult.toString());
-                // insert into LOCAL DB (variant1)
-                // insert into fragment in bundle(variant2)
-                // insert into sherperf (variant3)
-
-            }else{
-                Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
-            }
-        });
+//
+//        api.getUsers("marsel974", users -> {
+//            if(users!=null) {
+//                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+//                List<UserResult> userResult = null;
+//                userResult = (List<UserResult>) users;
+//                /**доделать ввод в бд**/
+//                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');");
+//                Log.d("RETROFIT", userResult.toString());
+//                // insert into LOCAL DB (variant1)
+//                // insert into fragment in bundle(variant2)
+//                // insert into sherperf (variant3)
+//
+//            }else{
+//                Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
         ArrayList<String> newsList = new ArrayList<>();
@@ -146,9 +147,11 @@ public class MainActivity extends AppCompatActivity {
 
             api.getBlog(newsList, blog -> {
 
+
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
 
                 String Title = Jsoup.parse(blogResult.getTitle()).text();
                 String content = Jsoup.parse(blogResult.getContent()).text();
@@ -169,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
                 values.put("content", content);
 
                 db.insert("blogs",null,  values);
-                db.close();
 
+                db.close();
 
             });
 
@@ -185,9 +188,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void callAfterRetro() {
-
-    }
 
 
     private void firstStartActivity() {
