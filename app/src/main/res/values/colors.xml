@@ -3,4 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="newbie">#7f7f7f</color>
+    <color name="specialist">#03a7aa</color>
+    <color name="legendary_grandmaster">#a90101</color>
+    <color name="master">#fd8b01</color>
+    <color name="candidate_master">#a901a9</color>
+    <color name="pupil">#007f01</color>
+    <color name="expert">#0001fd</color>
+    <color name="grandmaster">#fd7777</color>
+    <color name="international_master">#fd8b01</color>
+    <color name="international_grandmaster">#fd0101</color>
 </resources>

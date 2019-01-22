@@ -31,9 +31,7 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
 
         // data to populate the RecyclerView with
         ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
+        animalNames.add("Title");
 
 
 

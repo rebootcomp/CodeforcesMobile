@@ -110,16 +110,17 @@ public class MainActivity extends AppCompatActivity {
         //
         funcsAPI api = new funcsAPI();
 
-        api.getUsers("rebootcomp", users -> {
+        api.getUsers("geniucos", users -> {
             SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
             List<UserResult> userResult = null;
             userResult = (List<UserResult>) users;
-
-            db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName().toString() + "','" + userResult.get(0).getLastName().toString() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank().toString() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');");
+            Log.d("RETROFIT",userResult.get(0).getRank());
+            db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');");
             Log.d("RETROFIT", userResult.toString());
             // insert into LOCAL DB (variant1)
             // insert into fragment in bundle(variant2)
             // insert into sherperf (variant3)
+            db.close();
             if (userResult != null) {
                 Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
 
