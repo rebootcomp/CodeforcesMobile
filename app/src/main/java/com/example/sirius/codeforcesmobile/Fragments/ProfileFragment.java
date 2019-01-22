@@ -1,6 +1,7 @@
 package com.example.sirius.codeforcesmobile.Fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -9,10 +10,10 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sirius.codeforcesmobile.LoginActivity;
 import com.example.sirius.codeforcesmobile.R;
 
 import java.util.HashMap;
@@ -46,7 +47,16 @@ public class ProfileFragment extends Fragment {
         contributionView = (TextView)myFragmentView.findViewById(R.id.contributionView);
         frinedsView = (TextView)myFragmentView.findViewById(R.id.frinedsView);
 
-        setTextAndColour();
+        Boolean isLogin = getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isLogin", false);
+        if (isLogin){
+            setTextAndColour();
+        }
+        else{
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
         return myFragmentView;
 
@@ -56,13 +66,8 @@ public class ProfileFragment extends Fragment {
     public void setTextAndColour(){
         //get data from db
         SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-
-
         Cursor query = db.rawQuery("SELECT * FROM users;", null);
         query.moveToLast();
-
-        //CREATE TABLE IF NOT EXISTS users (rank TEXT,handle TEXT,firstname TEXT," +
-        //        " lastname TEXT,rating TEXT,maxrating TEXT,maxrank TEXT,contribution TEXT,friendOfCount TEXT)")
 
         String rankString = query.getString(0);
         String handleString = query.getString(1);
@@ -72,9 +77,21 @@ public class ProfileFragment extends Fragment {
         String maxrankString = query.getString(6);
         String contributionString = query.getString(7);
         String friendOfCountString = query.getString(8);
+
+        first_name.setText(nameString);
+        if(query.getString(2).equals("null") && query.getString(3).equals("null")){
+            first_name.setVisibility(View.GONE);
+        }
+        if(query.getString(2).equals("null") && !query.getString(3).equals("null")){
+            first_name.setText(query.getString(3));
+        }
+        if(!query.getString(2).equals("null") && query.getString(3).equals("null")){
+            first_name.setText(query.getString(2));
+        }
+
         rank.setText(rankString);
         handle.setText(handleString);
-        first_name.setText(nameString);
+
         nowRatingView.setText(ratingString);
         maxRatingView.setText(maxratingString);
         maxRankView.setText(maxrankString);
@@ -92,11 +109,9 @@ public class ProfileFragment extends Fragment {
         nowRatingView.setTextColor(getResources().getColor(resourceIdNow));
         maxRankView.setTextColor(getResources().getColor(resourceIdBest));
         maxRatingView.setTextColor(getResources().getColor(resourceIdBest));
-
-
-
         query.close();
         db.close();
     }
+
 
 }

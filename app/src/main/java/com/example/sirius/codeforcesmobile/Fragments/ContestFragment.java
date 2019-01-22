@@ -27,7 +27,6 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         // TODO Auto-generated method stub
         View myFragmentView = inflater.inflate(R.layout.contest_fragment, null);
 
-
         // data to populate the RecyclerView with
         ArrayList<String> animalNames = new ArrayList<>();
         animalNames.add("Title");

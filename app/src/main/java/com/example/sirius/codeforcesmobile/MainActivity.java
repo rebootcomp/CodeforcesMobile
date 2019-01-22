@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.Fragments.ContestFragment;
+import com.example.sirius.codeforcesmobile.Fragments.LoginFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NewsFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NotificationFragment;
 import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
@@ -39,19 +40,12 @@ import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.funcsAPI;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     ContestFragment fragment_contest;
     NotificationFragment fragment_notification;
     ProfileFragment fragment_profile;
+    LoginFragment fragment_login;
     SearchFragment fragment_search;
     FragmentTransaction transaction;
 
@@ -91,8 +86,16 @@ public class MainActivity extends AppCompatActivity {
                     transaction.commit();
                     return true;
                 case R.id.action_profile:
+                    Boolean isLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                            .getBoolean("isLogin", false);
                     transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frameLayout, fragment_profile);
+                    if(!isLogin){
+                        transaction.replace(R.id.frameLayout, fragment_login);
+                    }
+                    else{
+                        transaction.replace(R.id.frameLayout, fragment_profile);
+
+                    }
                     transaction.commit();
                     return true;
             }
@@ -114,37 +117,16 @@ public class MainActivity extends AppCompatActivity {
         fragment_notification = new NotificationFragment();
         fragment_profile = new ProfileFragment();
         fragment_search = new SearchFragment();
-
+        fragment_login = new LoginFragment();
 
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
 
-
-
         funcsAPI api = new funcsAPI();
-//
-//        api.getUsers("marsel974", users -> {
-//            if(users!=null) {
-//                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-//                List<UserResult> userResult = null;
-//                userResult = (List<UserResult>) users;
-//                /**доделать ввод в бд**/
-//                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');");
-//                Log.d("RETROFIT", userResult.toString());
-//                // insert into LOCAL DB (variant1)
-//                // insert into fragment in bundle(variant2)
-//                // insert into sherperf (variant3)
-//
-//            }else{
-//                Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
 
         ArrayList<String> newsList = new ArrayList<>();
         newsList.add("64495");
-
             api.getBlog(newsList, blog -> {
 
 
@@ -172,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 values.put("content", content);
 
                 db.insert("blogs",null,  values);
-
                 db.close();
 
             });
@@ -207,5 +188,15 @@ public class MainActivity extends AppCompatActivity {
     public void onContent(View view) {
         Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
     }
+
+    public void editProfile(View view) {
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isLogin", false).apply();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
 }
 
