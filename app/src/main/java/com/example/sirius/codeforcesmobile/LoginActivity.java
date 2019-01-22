@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onEnter(View view) {
-
         String login = String.valueOf(editTextLogin.getText());
         funcsAPI api = new funcsAPI();
 
@@ -35,16 +34,18 @@ public class LoginActivity extends AppCompatActivity {
                 List<UserResult> userResult = null;
                 userResult = (List<UserResult>) users;
                 /**доделать ввод в бд**/
-                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');");
+                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
                 Log.d("RETROFIT", userResult.toString());
-                // insert into LOCAL DB (variant1)
-                // insert into fragment in bundle(variant2)
-                // insert into sherperf (variant3)
+
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                        .putBoolean("isLogin", true).apply();
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }else{
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                        .putBoolean("isLogin", false).apply();
                 Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
             }
         });
@@ -58,4 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

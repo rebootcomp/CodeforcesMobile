@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
-    tools:context=".LoginActivity">
+    android:background="#eeeeee">
 
     <RelativeLayout
         android:layout_width="383dp"
@@ -17,19 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/CFlogo"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/Card"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="120dp"
-            android:background="#eeeeee"
-            android:contentDescription="TODO"
-            app:srcCompat="@drawable/ic_cf"
-            tools:ignore="VectorDrawableCompat" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/Card"
@@ -62,36 +47,17 @@
                 android:layout_marginBottom="44dp"
                 android:background="@drawable/edit_text_style" />
 
-            <ImageButton
-                android:onClick="onEnter"
-                android:id="@+id/Enterbutton"
-                android:layout_width="88dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="198dp"
-                android:layout_marginTop="80dp"
-                android:background="@drawable/edit_text_style" />
-
-            <TextView
+            <Button
                 android:id="@+id/Enter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="212dp"
                 android:layout_marginTop="80dp"
+                android:layout_marginLeft="100dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/edit_text_style"
                 android:text="Войти"
                 android:textColor="#333333"
                 android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/Enterwithout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="85dp"
-                android:text="Войти без авторизации"
-                android:onClick="onEnterWithout"
-                android:textColor="#0000cc"
-                android:textSize="15sp" />
-
 
         </android.support.v7.widget.CardView>
 
