@@ -30,6 +30,7 @@ public class funcsAPI {
             call = service.getUsers(handles);
         } catch (Exception e) {
             Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+
         }
         Log.d("RETROFIT", "BEFORE REQUEST");
 
@@ -38,18 +39,20 @@ public class funcsAPI {
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
-                    List<UserResult> userResult = response.body().getResult();
-                   // Log.d("RETROFIT",response.body().getResult());
-                    Log.d("RETROFIT",response.body().getStatus());
-                    if(response.body().getResult()==null){
-                        Log.d("RETROFIT","null pointer");
+                    if(response.body().getStatus().equals("OK")) {
+                        List<UserResult> userResult = response.body().getResult();
+                        // Log.d("RETROFIT",response.body().getResult());
+                        Log.d("RETROFIT", response.body().getStatus());
+                        if (response.body().getResult() == null) {
+                            Log.d("RETROFIT", "null pointer");
+                        }
+
+                        /*testResult*/ //response.body().getResult();
+                        Log.d("RETROFIT", String.valueOf(response));
+
+                        // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                        callback.call(userResult);
                     }
-
-                    /*testResult*/ //response.body().getResult();
-                    Log.d("RETROFIT", String.valueOf(response));
-
-                    // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
-                    callback.call(userResult);
 
                 }
 
@@ -86,18 +89,19 @@ public class funcsAPI {
             call.enqueue(new Callback<Blog>() {
                 @Override
                 public void onResponse(Call<Blog> call, Response<Blog> response) {
-                    BlogResult blogResult = response.body().getResult();
-                    // Log.d("RETROFIT",response.body().getResult());
-                    if(response.body().getStatus()==null){
-                        Log.d("RETROFIT",response.body().getStatus());
+                    if(response.body().getStatus().equals("OK")) {
+                        BlogResult blogResult = response.body().getResult();
+                        // Log.d("RETROFIT",response.body().getResult());
+
+                        Log.d("RETROFIT", response.body().getStatus());
+
+
+                        /*testResult*/ //response.body().getResult();
+                        Log.d("RETROFIT", String.valueOf(response));
+
+                        // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                        callback.call(blogResult);
                     }
-
-                    /*testResult*/ //response.body().getResult();
-                    Log.d("RETROFIT", String.valueOf(response));
-
-                    // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
-                    callback.call(blogResult);
-
                 }
 
                 @Override
