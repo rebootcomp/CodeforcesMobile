@@ -29,19 +29,6 @@
             android:textSize="18sp" />
 
         <TextView
-
-            android:id="@+id/textViewDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTitle"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/textViewAuthor"
-            android:layout_toRightOf="@+id/textViewAuthor"
-            android:text="date"
-            android:textColor="#333333"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/textViewContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,10 +37,21 @@
             android:layout_alignParentLeft="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/content"
+            android:text="4444444444"
             android:textColor="#333333"
             android:textSize="18sp" />
 
+
+        <TextView
+
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/textViewContent"
+            android:text="date"
+            android:textColor="#333333"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -62,7 +60,9 @@
             android:layout_below="@+id/textViewAuthor"
             android:layout_alignBottom="@+id/textViewContent"
             android:layout_marginTop="5dp"
-            app:srcCompat="@android:color/darker_gray" /></RelativeLayout>
+            android:contentDescription="TODO"
+            app:srcCompat="@android:color/darker_gray" />
+    </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>

@@ -27,6 +27,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="120dp"
             android:background="#eeeeee"
+            android:contentDescription="TODO"
             app:srcCompat="@drawable/ic_cf"
             tools:ignore="VectorDrawableCompat" />
 
@@ -52,6 +53,7 @@
                 android:textSize="24sp" />
 
             <EditText
+                android:id="@+id/editTextLogin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"

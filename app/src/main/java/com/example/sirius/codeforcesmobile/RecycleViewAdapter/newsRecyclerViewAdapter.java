@@ -13,14 +13,20 @@ import java.util.List;
 
 public class newsRecyclerViewAdapter extends RecyclerView.Adapter<newsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<String> mTitle;
+    private List<String> mAuthor;
+    private List<String> mDate;
+    private List<String> mContent;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public newsRecyclerViewAdapter(Context context, List<String> data) {
+    public newsRecyclerViewAdapter(Context context, List<String> title, List<String> author, List<String> date, List<String> content) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.mTitle = title;
+        this.mAuthor = author;
+        this.mDate = date;
+        this.mContent = content;
     }
 
     // inflates the row layout from xml when needed
@@ -33,24 +39,37 @@ public class newsRecyclerViewAdapter extends RecyclerView.Adapter<newsRecyclerVi
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        String title = mTitle.get(position);
+        String author = mAuthor.get(position);
+        String date = mDate.get(position);
+        String content = mContent.get(position);
+        holder.textViewTitle.setText(title);
+        holder.textViewAuthor.setText(author);
+        holder.textViewDate.setText(date);
+        holder.textViewContent.setText(content);
+
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mTitle.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView textViewTitle;
+        TextView textViewAuthor;
+        TextView textViewDate;
+        TextView textViewContent;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
+            textViewContent = itemView.findViewById(R.id.textViewContent);
             itemView.setOnClickListener(this);
         }
 
@@ -62,7 +81,7 @@ public class newsRecyclerViewAdapter extends RecyclerView.Adapter<newsRecyclerVi
 
     // convenience method for getting data at click position
     public String getItem(int id) {
-        return mData.get(id);
+        return mTitle.get(id);
     }
 
     // allows clicks events to be caught

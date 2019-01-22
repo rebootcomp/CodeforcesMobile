@@ -62,7 +62,9 @@
             android:layout_below="@+id/textViewAuthor"
             android:layout_alignBottom="@+id/textViewContent"
             android:layout_marginTop="5dp"
-            app:srcCompat="@android:color/darker_gray" /></RelativeLayout>
+            android:contentDescription="TODO"
+            app:srcCompat="@android:color/darker_gray" />
+    </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>

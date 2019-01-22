@@ -121,31 +121,29 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
 
-        //
+
         funcsAPI api = new funcsAPI();
 
-        api.getUsers("geniucos", users -> {
-            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-            List<UserResult> userResult = null;
-            userResult = (List<UserResult>) users;
-            /**доделать ввод в бд**/
-            // db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName().toString() + "','" + userResult.get(0).getLastName().toString() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank().toString() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');");
-            Log.d("RETROFIT", userResult.toString());
-            // insert into LOCAL DB (variant1)
-            // insert into fragment in bundle(variant2)
-            // insert into sherperf (variant3)
-            db.close();
-            if (userResult != null) {
-                Toast.makeText(getApplicationContext(), userResult.get(0).getHandle(), Toast.LENGTH_SHORT).show();
+//        api.getUsers("marsel974", users -> {
+//            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+//            List<UserResult> userResult = null;
+//            userResult = (List<UserResult>) users;
+//            /**доделать ввод в бд**/
+//            db.execSQL("INSERT INTO users VALUES ('"+userResult.get(0).getRank()+"','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','"+userResult.get(0).getContribution().toString()+"','"+userResult.get(0).getFriendOfCount().toString()+"');'");
+//            Log.d("RETROFIT", userResult.toString());
+//            // insert into LOCAL DB (variant1)
+//            // insert into fragment in bundle(variant2)
+//            // insert into sherperf (variant3)
+//            db.close();
+//        });
 
-            }
-        });
         String[] newsList = {"64685", "64613", "64495"};
        // for (int i = 0; i < 3; i++) {
-            api.getBlog("64685", blog -> {
+            api.getBlog("64495", blog -> {
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
 
                 String Title = Jsoup.parse(blogResult.getTitle()).text();
                 String content = Jsoup.parse(blogResult.getContent()).text();
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 values.put("content", content);
                 db.insert("blogs",null,  values);
                 //db.execSQL("INSERT INTO blogs VALUES ('"+Title+"','"+author+"','"+date+"','"+content+"');'");
-               /* Cursor query = db.rawQuery("SELECT * FROM blogs;", null);
+                /* Cursor query = db.rawQuery("SELECT * FROM blogs;", null);
                 query.moveToLast();
                 Toast.makeText(getApplicationContext(), query.getString(2) , Toast.LENGTH_LONG).show();*/
             });
@@ -180,9 +178,6 @@ public class MainActivity extends AppCompatActivity {
         }
   //  }
 
-    private void callAfterRetro() {
-
-    }
 
 
     private void firstStartActivity() {
