@@ -128,4 +128,61 @@ public class funcsAPI {
 
     }
 
+    public void getContests(String gym, final com.example.sirius.codeforcesmobile.Callback callback){
+
+        String BASE_URL = "http://codeforces.com";
+
+        Retrofit client = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        ContestsInterface service = client.create(ContestsInterface.class);
+        Call<Contests> call = null;
+
+        try {
+            call = ((ContestsInterface) service).getContests(gym);
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+
+        }
+        Log.d("RETROFIT", "BEFORE REQUEST");
+
+
+        try {
+            call.enqueue(new Callback<Contests>() {
+                @Override
+                public void onResponse(Call<Contests> call, Response<Contests> response) {
+                    if(response.body() != null) {
+                        List<ContestResult> contestsResult = response.body().getResult();
+                        // Log.d("RETROFIT",response.body().getResult());
+                        Log.d("RETROFIT", response.body().getStatus());
+                        if (response.body().getResult() == null) {
+                            Log.d("RETROFIT", "null pointer");
+                        }
+
+                        /*testResult*/ //response.body().getResult();
+                        Log.d("RETROFIT", String.valueOf(response));
+
+                        // Log.d("RETROFIT", String.valueOf(userResult.getRating()));
+                        callback.call(contestsResult);
+                    }else{
+                        callback.call(null);
+                        Log.d("RETROFIT","Wrong request");
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Contests> call, Throwable t) {
+                    Log.d("RETROFIT", t.getLocalizedMessage());
+                }
+
+
+            });
+        } catch (Exception e) {
+            Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
+            // Toast.makeText(getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT);
+
+        }
+
+    }
+
 }
