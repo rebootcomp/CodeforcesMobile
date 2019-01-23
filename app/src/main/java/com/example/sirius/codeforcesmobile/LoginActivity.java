@@ -34,15 +34,22 @@ public class LoginActivity extends AppCompatActivity {
                 List<UserResult> userResult = null;
                 userResult = (List<UserResult>) users;
                 /**доделать ввод в бд**/
-                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
-                Log.d("RETROFIT", userResult.toString());
+                /**доделать ввод в бд**/
+                if(userResult.get(0).getRank()!=null){
+                    db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
+                    Log.d("RETROFIT", userResult.toString());
 
-                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                        .putBoolean("isLogin", true).apply();
+                    getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                            .putBoolean("isLogin", true).apply();
 
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Пользователь нерейтинговый",Toast.LENGTH_SHORT).show();
+
+                }
             }else{
                 getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                         .putBoolean("isLogin", false).apply();

@@ -59,11 +59,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 List<UserResult> userResult = null;
                 userResult = (List<UserResult>) users;
                 /**доделать ввод в бд**/
-                db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
-                Intent intent = new Intent(myFragmentView.getContext(), MainActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-                Log.d("RETROFIT", userResult.toString());
+                if(userResult.get(0).getRank()!=null){
+                    db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
+                    Intent intent = new Intent(myFragmentView.getContext(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                    Log.d("RETROFIT", userResult.toString());
+                }
+                else{
+                    Toast.makeText(getContext().getApplicationContext(),"Пользователь нерейтинговый",Toast.LENGTH_SHORT).show();
+
+                }
+
 
                 getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                         .putBoolean("isLogin", true).apply();

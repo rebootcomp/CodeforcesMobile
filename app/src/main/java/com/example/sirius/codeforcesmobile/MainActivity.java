@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         firstStartActivity();
 
+        //инициализация
         fragment_news = new NewsFragment();
         fragment_contest = new ContestFragment();
         fragment_notification = new NotificationFragment();
@@ -121,54 +122,48 @@ public class MainActivity extends AppCompatActivity {
         fragment_search = new SearchFragment();
         fragment_login = new LoginFragment();
 
+        //начальный переход на вкладку новостей
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
 
+        //запись блогов в бд
         funcsAPI api = new funcsAPI();
-
         ArrayList<String> newsList = new ArrayList<>();
         newsList.add("64708");
         newsList.add("64685");
         newsList.add("64613");
-            api.getBlog(newsList, blog -> {
+        api.getBlog(newsList, blog -> {
+            BlogResult blogResult = (BlogResult) blog;
+            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+            String Title = Jsoup.parse(blogResult.getTitle()).text();
+            String content = Jsoup.parse(blogResult.getContent()).text();
+            String author = blogResult.getAuthorHandle();
+            Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
 
+            long millis = blogResult.getCreationTimeSeconds() * 1000;
+            Date date = new Date(millis);
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String Date = sdf.format(date);
+            ContentValues values = new ContentValues();
 
-                BlogResult blogResult = (BlogResult) blog;
+            values.put("title", Title);
+            values.put("author", author);
+            values.put("date", Date);
+            values.put("content", formatedText.toString());
+            values.put("date_id", (millis/1000));
 
-                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+            db.insert("blogs",null,  values);
+            db.close();
 
+        });
 
-                String Title = Jsoup.parse(blogResult.getTitle()).text();
-                String content = Jsoup.parse(blogResult.getContent()).text();
-                String author = blogResult.getAuthorHandle();
-                Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
-
-                long millis = blogResult.getCreationTimeSeconds() * 1000;
-                Date date = new Date(millis);
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
-                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                String Date = sdf.format(date);
-                //content = content.replace("'", " ");
-                ContentValues values = new ContentValues();
-
-                values.put("title", Title);
-                values.put("author", author);
-                values.put("date", Date);
-                values.put("content", formatedText.toString());
-                values.put("date_id", (millis/1000));
-
-                db.insert("blogs",null,  values);
-                db.close();
-
-            });
-
-
-            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-            navigation.getMenu().getItem(0).setChecked(false);
-            navigation.getMenu().getItem(2).setChecked(true);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        //
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.getMenu().getItem(0).setChecked(false);
+        navigation.getMenu().getItem(2).setChecked(true);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         }
 

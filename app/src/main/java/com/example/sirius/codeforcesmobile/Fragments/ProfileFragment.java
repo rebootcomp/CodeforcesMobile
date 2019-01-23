@@ -35,9 +35,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO Auto-generated method stub
         myFragmentView = inflater.inflate(R.layout.profile_fragment, container, false);
-
+        //инициализаиция view элементов
         rank = (TextView)myFragmentView.findViewById(R.id.rank);
         handle = (TextView)myFragmentView.findViewById(R.id.handle);
         first_name = (TextView)myFragmentView.findViewById(R.id.first_name);
@@ -47,6 +46,7 @@ public class ProfileFragment extends Fragment {
         contributionView = (TextView)myFragmentView.findViewById(R.id.contributionView);
         frinedsView = (TextView)myFragmentView.findViewById(R.id.frinedsView);
 
+        //проверка на то, что пользователь залогинился
         Boolean isLogin = getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isLogin", false);
         if (isLogin){
@@ -57,18 +57,15 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
             getActivity().finish();
         }
-
         return myFragmentView;
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setTextAndColour(){
-        //get data from db
+        //получение данных из бд
         SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         Cursor query = db.rawQuery("SELECT * FROM users;", null);
         query.moveToLast();
-
         String rankString = query.getString(0);
         String handleString = query.getString(1);
         String nameString = query.getString(2) + " "+ query.getString(3);
@@ -78,6 +75,8 @@ public class ProfileFragment extends Fragment {
         String contributionString = query.getString(7);
         String friendOfCountString = query.getString(8);
 
+
+        //обработка null
         first_name.setText(nameString);
         if(query.getString(2).equals("null") && query.getString(3).equals("null")){
             first_name.setVisibility(View.GONE);
@@ -89,21 +88,22 @@ public class ProfileFragment extends Fragment {
             first_name.setText(query.getString(2));
         }
 
+        //вывод статистики
         rank.setText(rankString);
         handle.setText(handleString);
-
         nowRatingView.setText(ratingString);
         maxRatingView.setText(maxratingString);
         maxRankView.setText(maxrankString);
         contributionView.setText(contributionString);
         frinedsView.setText(friendOfCountString);
+
+        //закрашивание текста в зависимости от ранга
         rankString = rankString.replace(" ", "_");
         maxrankString = maxrankString.replace(" ", "_");
         int resourceIdNow = getContext().getResources().
                 getIdentifier(rankString, "color", getContext().getPackageName());
         int resourceIdBest = getContext().getResources().
                 getIdentifier(maxrankString, "color", getContext().getPackageName());
-
         rank.setTextColor(getResources().getColor(resourceIdNow));
         handle.setTextColor(getResources().getColor(resourceIdNow));
         nowRatingView.setTextColor(getResources().getColor(resourceIdNow));
