@@ -43,7 +43,7 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
         //get data from db
         SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        Cursor query = db.rawQuery("SELECT * FROM blogs;", null);
+        Cursor query = db.rawQuery("SELECT * FROM blogs ORDER BY date_id DESC LIMIT 10", null);
         if(query.moveToFirst()){
             do{
                 String title = query.getString(0);

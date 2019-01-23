@@ -24,5 +24,6 @@
         android:inputType="textPersonName"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:imeOptions="actionSearch"/>
 </RelativeLayout>

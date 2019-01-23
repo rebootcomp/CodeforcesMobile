@@ -18,6 +18,8 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spannable;
 import android.util.Log;
 
 import android.view.MenuItem;
@@ -126,7 +128,9 @@ public class MainActivity extends AppCompatActivity {
         funcsAPI api = new funcsAPI();
 
         ArrayList<String> newsList = new ArrayList<>();
-        newsList.add("64495");
+        newsList.add("64708");
+        newsList.add("64685");
+        newsList.add("64613");
             api.getBlog(newsList, blog -> {
 
 
@@ -138,20 +142,21 @@ public class MainActivity extends AppCompatActivity {
                 String Title = Jsoup.parse(blogResult.getTitle()).text();
                 String content = Jsoup.parse(blogResult.getContent()).text();
                 String author = blogResult.getAuthorHandle();
+                Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
 
                 long millis = blogResult.getCreationTimeSeconds() * 1000;
                 Date date = new Date(millis);
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String Date = sdf.format(date);
-
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
 
                 values.put("title", Title);
                 values.put("author", author);
                 values.put("date", Date);
-                values.put("content", content);
+                values.put("content", formatedText.toString());
+                values.put("date_id", (millis/1000));
 
                 db.insert("blogs",null,  values);
                 db.close();
