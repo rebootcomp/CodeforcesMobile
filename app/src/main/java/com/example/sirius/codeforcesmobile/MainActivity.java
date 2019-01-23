@@ -33,6 +33,7 @@ import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
 import com.example.sirius.codeforcesmobile.Fragments.SearchFragment;
 import com.example.sirius.codeforcesmobile.connectionAPI.ApiListResponse;
 import com.example.sirius.codeforcesmobile.connectionAPI.BlogResult;
+import com.example.sirius.codeforcesmobile.connectionAPI.ContestResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.User;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserInterface;
@@ -154,6 +155,28 @@ public class MainActivity extends AppCompatActivity {
                 db.insert("blogs",null,  values);
                 db.close();
 
+            });
+
+            api.getContests("false", contests ->{
+                if(contests!=null){
+                    SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                    List<ContestResult> contestResults = (List<ContestResult>) contests;
+                    Date currentDate = new Date(System.currentTimeMillis());
+                    long currentTime = currentDate.getTime()*1000;
+                    for(int i=0;i<10;i++){
+                        if(contestResults.get(i).getStartTimeSeconds()>currentTime){
+                            String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
+                            ContentValues values = new ContentValues();
+                            values.put("id", contestResults.get(i).getId());
+                            values.put("name", contestResults.get(i).getName());
+                            values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
+                            values.put("duration", contestResults.get(i).getDurationSeconds());
+                            values.put("url", url);
+                            db.insert("contests",null,values);
+                        }
+                    }
+
+                }
             });
 
 
