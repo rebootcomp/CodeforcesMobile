@@ -14,7 +14,7 @@ public class App extends Application {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS users (rank TEXT,handle TEXT,firstname TEXT, lastname TEXT,rating TEXT,maxrating TEXT,maxrank TEXT,contribution TEXT,friendOfCount TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS blogs (title TEXT,author TEXT,date TEXT,content TEXT)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS contests (id TEXT,name TEXT,author TEXT,startTimeSeconds TEXT,duration TEXT,url TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS contests (id TEXT,name TEXT,startTimeSeconds TEXT,duration TEXT,url TEXT)");
 
         //db.execSQL("INSERT INTO users VALUES ('Tom Smith', 23);");
         db.close();
