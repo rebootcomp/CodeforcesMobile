@@ -3,6 +3,8 @@ package com.example.sirius.codeforcesmobile;
 
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,9 +50,29 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
+    private FirebaseApp fbapp;
 
     private List<UserResult> userResult = null;
 
@@ -114,7 +136,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firstStartActivity();
+//
+        FirebaseApp.initializeApp(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+           // String channelId  = getString(R.string.default_notification_channel_id);
+           // String channelName = getString(R.string.default_notification_channel_name);
 
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+
+           // notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+             //       channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+        String fbApplicationId = "1:924700574202:android:5920de3503a2d18c";
+        String fbApiKey = "AIzaSyDFjaTog9P4hFSVtn3o6djUXWEyZN3x6D8";
+        String fbAppname = getResources().getString(R.string.app_name);
+
+        FirebaseOptions.Builder builder = new FirebaseOptions.Builder()
+                .setApplicationId(fbApplicationId)
+                .setApiKey(fbApiKey);
+        fbapp = FirebaseApp.initializeApp(this, builder.build(),fbAppname);
+        //
         //инициализация
         fragment_news = new NewsFragment();
         fragment_contest = new ContestFragment();
