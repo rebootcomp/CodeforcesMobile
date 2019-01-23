@@ -10,12 +10,17 @@
     <RelativeLayout
         android:layout_width="383dp"
         android:layout_height="match_parent"
+<<<<<<< HEAD
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+=======
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+>>>>>>> artem
 
         <ImageView
             android:id="@+id/CFlogo"
@@ -58,8 +63,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="44dp"
+<<<<<<< HEAD
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="44dp"
+=======
+>>>>>>> artem
                 android:background="@drawable/edit_text_style" />
 
             <ImageButton
@@ -71,6 +79,25 @@
                 android:layout_marginTop="80dp"
                 android:background="@drawable/edit_text_style" />
 
+<<<<<<< HEAD
+=======
+            <!--  <ImageView
+                android:id="@+id/Kitleft"
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="65dp"
+                app:srcCompat="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/KitRigth"
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="287dp"
+                android:layout_marginTop="65dp"
+                app:srcCompat="@android:color/black" /> -->
+
+>>>>>>> artem
             <TextView
                 android:id="@+id/Enter"
                 android:layout_width="wrap_content"
@@ -88,7 +115,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="85dp"
                 android:text="Войти без авторизации"
+<<<<<<< HEAD
                 android:onClick="onEnterWithout"
+=======
+>>>>>>> artem
                 android:textColor="#0000cc"
                 android:textSize="15sp" />
 

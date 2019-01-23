@@ -1,0 +1,7 @@
+#Wed Jan 16 14:16:14 MSK 2019
+base.0=/Users/artem/Desktop/codefocesmob/CodeforcesMobile/app/build/intermediates/transforms/dexMerger/debug/0
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=/Users/artem/Desktop/codefocesmob/CodeforcesMobile/app/build/intermediates/transforms/dexMerger/debug/1
