@@ -18,6 +18,8 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spannable;
 import android.util.Log;
 
 import android.view.MenuItem;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         firstStartActivity();
 
+        //инициализация
         fragment_news = new NewsFragment();
         fragment_contest = new ContestFragment();
         fragment_notification = new NotificationFragment();
@@ -120,70 +123,73 @@ public class MainActivity extends AppCompatActivity {
         fragment_search = new SearchFragment();
         fragment_login = new LoginFragment();
 
+        //начальный переход на вкладку новостей
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment_news);
         transaction.commit();
 
+        //запись блогов в бд
         funcsAPI api = new funcsAPI();
-
         ArrayList<String> newsList = new ArrayList<>();
-        newsList.add("64495");
+        newsList.add("64708");
+        newsList.add("64685");
+        newsList.add("64613");
 
-            api.getBlog(newsList, blog -> {
-                BlogResult blogResult = (BlogResult) blog;
+        api.getBlog(newsList, blog -> {
+            BlogResult blogResult = (BlogResult) blog;
 
+            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+            String Title = Jsoup.parse(blogResult.getTitle()).text();
+            String content = Jsoup.parse(blogResult.getContent()).text();
+            String author = blogResult.getAuthorHandle();
+            Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
+            long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
+            Date date = new Date(millis);
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String Date = sdf.format(date);
+            //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
+            //content = content.replace("'", " ");
+            ContentValues values = new ContentValues();
+
+            values.put("title", Title);
+            values.put("author", author);
+            values.put("date", Date);
+            values.put("content", formatedText.toString());
+            values.put("date_id", (millis/1000));
+            db.insert("blogs",null,  values);
+            db.close();
+
+        });
+
+        api.getContests("false", contests ->{
+            if(contests!=null){
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-
-
-                String Title = Jsoup.parse(blogResult.getTitle()).text();
-                String content = Jsoup.parse(blogResult.getContent()).text();
-                String author = blogResult.getAuthorHandle();
-
-                long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
-                Date date = new Date(millis);
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
-                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-                String Date = sdf.format(date);
-                //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
-                //content = content.replace("'", " ");
-                ContentValues values = new ContentValues();
-
-                values.put("title", Title);
-                values.put("author", author);
-                values.put("date", Date);
-                values.put("gcontent", content);
-                db.insert("blogs",null,  values);
-                db.close();
-
-            });
-
-            api.getContests("false", contests ->{
-                if(contests!=null){
-                    SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-                    List<ContestResult> contestResults = (List<ContestResult>) contests;
-                    Date currentDate = new Date(System.currentTimeMillis());
-                    long currentTime = currentDate.getTime()*1000;
-                    for(int i=0;i<10;i++){
-                        if(contestResults.get(i).getStartTimeSeconds()>currentTime){
-                            String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
-                            ContentValues values = new ContentValues();
-                            values.put("id", contestResults.get(i).getId());
-                            values.put("name", contestResults.get(i).getName());
-                            values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
-                            values.put("duration", contestResults.get(i).getDurationSeconds());
-                            values.put("url", url);
-                            db.insert("contests",null,values);
-                        }
+                List<ContestResult> contestResults = (List<ContestResult>) contests;
+                Date currentDate = new Date(System.currentTimeMillis());
+                long currentTime = currentDate.getTime()*1000;
+                for(int i=0;i<10;i++){
+                    if(contestResults.get(i).getStartTimeSeconds()>currentTime){
+                        String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
+                        ContentValues values = new ContentValues();
+                        values.put("id", contestResults.get(i).getId());
+                        values.put("name", contestResults.get(i).getName());
+                        values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
+                        values.put("duration", contestResults.get(i).getDurationSeconds());
+                        values.put("url", url);
+                        db.insert("contests",null,values);
                     }
-
                 }
-            });
+
+            }
+        });
 
 
-            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-            navigation.getMenu().getItem(0).setChecked(false);
-            navigation.getMenu().getItem(2).setChecked(true);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.getMenu().getItem(0).setChecked(false);
+        navigation.getMenu().getItem(2).setChecked(true);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
         }
