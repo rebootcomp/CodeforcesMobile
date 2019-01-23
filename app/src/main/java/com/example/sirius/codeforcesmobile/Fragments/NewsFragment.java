@@ -50,6 +50,7 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
                 String author = query.getString(1);
                 String date = query.getString(2);
                 String content = query.getString(3);
+                Toast.makeText(getContext(),query.getString(2), Toast.LENGTH_SHORT).show();
                 titles.add(title);
                 authors.add(author);
                 dates.add(date);
@@ -57,6 +58,8 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
             }
             while(query.moveToNext());
         }
+        //query.moveToFirst();
+        //Toast.makeText(getContext(),query.getString(2),Toast.LENGTH_SHORT).show();
         query.close();
         db.close();
 

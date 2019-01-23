@@ -15,6 +15,7 @@ import com.example.sirius.codeforcesmobile.R;
 import com.example.sirius.codeforcesmobile.RecycleViewAdapter.contestRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ContestFragment extends Fragment implements contestRecyclerViewAdapter.ItemClickListener {
 
@@ -31,12 +32,16 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         ArrayList<String> animalNames = new ArrayList<>();
         animalNames.add("Title");
 
+        Date currentDate = new Date(System.currentTimeMillis());
+        long millis = currentDate.getTime();    //текущее время
+
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewContest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new contestRecyclerViewAdapter(getContext(), animalNames);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+
         return myFragmentView;
     }
 

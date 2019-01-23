@@ -35,6 +35,7 @@ import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
 import com.example.sirius.codeforcesmobile.Fragments.SearchFragment;
 import com.example.sirius.codeforcesmobile.connectionAPI.ApiListResponse;
 import com.example.sirius.codeforcesmobile.connectionAPI.BlogResult;
+import com.example.sirius.codeforcesmobile.connectionAPI.ContestResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.User;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserInterface;
@@ -133,19 +134,23 @@ public class MainActivity extends AppCompatActivity {
         newsList.add("64708");
         newsList.add("64685");
         newsList.add("64613");
+
         api.getBlog(newsList, blog -> {
             BlogResult blogResult = (BlogResult) blog;
+
             SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
             String Title = Jsoup.parse(blogResult.getTitle()).text();
             String content = Jsoup.parse(blogResult.getContent()).text();
             String author = blogResult.getAuthorHandle();
             Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
-
-            long millis = blogResult.getCreationTimeSeconds() * 1000;
+            long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
             Date date = new Date(millis);
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             String Date = sdf.format(date);
+            //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
+            //content = content.replace("'", " ");
             ContentValues values = new ContentValues();
 
             values.put("title", Title);
@@ -153,17 +158,39 @@ public class MainActivity extends AppCompatActivity {
             values.put("date", Date);
             values.put("content", formatedText.toString());
             values.put("date_id", (millis/1000));
-
             db.insert("blogs",null,  values);
             db.close();
 
         });
 
-        //
+        api.getContests("false", contests ->{
+            if(contests!=null){
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                List<ContestResult> contestResults = (List<ContestResult>) contests;
+                Date currentDate = new Date(System.currentTimeMillis());
+                long currentTime = currentDate.getTime()*1000;
+                for(int i=0;i<10;i++){
+                    if(contestResults.get(i).getStartTimeSeconds()>currentTime){
+                        String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
+                        ContentValues values = new ContentValues();
+                        values.put("id", contestResults.get(i).getId());
+                        values.put("name", contestResults.get(i).getName());
+                        values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
+                        values.put("duration", contestResults.get(i).getDurationSeconds());
+                        values.put("url", url);
+                        db.insert("contests",null,values);
+                    }
+                }
+
+            }
+        });
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(true);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         }
 
