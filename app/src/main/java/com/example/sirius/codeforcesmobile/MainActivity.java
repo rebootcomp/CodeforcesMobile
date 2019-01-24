@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     if (contestResults.get(i).getStartTimeSeconds() > currentTime) {
                         String url = "codeforces.com/contestRegistration/" + contestResults.get(i).getId().toString();
                         ContentValues values = new ContentValues();
+
                         values.put("id", contestResults.get(i).getId());
                         values.put("name", contestResults.get(i).getName());
                         values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
             funcsAPI api = new funcsAPI();
 
             api.getBlog(resultList, blog -> {
+
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
@@ -254,12 +256,14 @@ public class MainActivity extends AppCompatActivity {
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
 
+                if (db.rawQuery("SELECT * FROM blogs WHERE title ='"+Title+"' AND author='"+author+"';", null).getCount() == 0){
                 values.put("title", Title);
                 values.put("author", author);
                 values.put("date", Date);
                 values.put("content", formatedText.toString());
                 values.put("date_id", (millis/1000));
                 db.insert("blogs",null,  values);
+                }
                 db.close();
 
             });
