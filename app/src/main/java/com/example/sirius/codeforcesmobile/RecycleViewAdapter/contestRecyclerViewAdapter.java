@@ -50,7 +50,7 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
         String duration = mDuration.get(position);
         holder.textViewTitle.setText(title);
         holder.textViewDate.setText(date);
-        holder.textViewDuration.setText(duration);
+        holder.textViewDuration.setText(duration+" часа");
     }
 
     // total number of rows
