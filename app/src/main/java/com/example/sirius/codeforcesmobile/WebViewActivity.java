@@ -16,7 +16,7 @@ public class WebViewActivity extends AppCompatActivity {
         WebView webView = findViewById(R.id.webView);
         Intent intent = getIntent();
         String url = "http://"+intent.getStringExtra("URL") + "?mobile=true";
-        Toast.makeText(getApplicationContext(),url, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),url, Toast.LENGTH_SHORT).show();
         webView.loadUrl(url);
         WebSettings webSettings = webView.getSettings();
         webView.getSettings().setJavaScriptEnabled(true);

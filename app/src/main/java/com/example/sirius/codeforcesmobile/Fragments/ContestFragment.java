@@ -88,7 +88,7 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         return myFragmentView;
     }
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "You clicked "+adapter.getItemURL(position), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "You clicked "+adapter.getItemURL(position), Toast.LENGTH_SHORT).show();
     }
 
 }
