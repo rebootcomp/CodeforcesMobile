@@ -37,14 +37,14 @@ public class ProfileFragment extends Fragment {
 
         myFragmentView = inflater.inflate(R.layout.profile_fragment, container, false);
         //инициализаиция view элементов
-        rank = (TextView)myFragmentView.findViewById(R.id.rank);
-        handle = (TextView)myFragmentView.findViewById(R.id.handle);
-        first_name = (TextView)myFragmentView.findViewById(R.id.first_name);
-        nowRatingView = (TextView)myFragmentView.findViewById(R.id.nowRatingView);
-        maxRatingView = (TextView)myFragmentView.findViewById(R.id.maxRatingView);
-        maxRankView = (TextView)myFragmentView.findViewById(R.id.maxRankView);
-        contributionView = (TextView)myFragmentView.findViewById(R.id.contributionView);
-        frinedsView = (TextView)myFragmentView.findViewById(R.id.frinedsView);
+        rank = myFragmentView.findViewById(R.id.rank);
+        handle = myFragmentView.findViewById(R.id.handle);
+        first_name = myFragmentView.findViewById(R.id.first_name);
+        nowRatingView = myFragmentView.findViewById(R.id.nowRatingView);
+        maxRatingView = myFragmentView.findViewById(R.id.maxRatingView);
+        maxRankView = myFragmentView.findViewById(R.id.maxRankView);
+        contributionView = myFragmentView.findViewById(R.id.contributionView);
+        frinedsView = myFragmentView.findViewById(R.id.frinedsView);
 
         //проверка на то, что пользователь залогинился
         Boolean isLogin = getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE)

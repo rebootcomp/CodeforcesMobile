@@ -8,5 +8,19 @@
         arsijo за помощь в проведении раунда. Отдельное спасибо Andreikkaa за идею по задаче E.\n\nУдачи!\n\nP.S. Это мой первый раунд
         на Codeforces, поэтому не судите строго :)\n\nUPD: Добавлен разбор. Всем спасибо за участие и за отзывы о контесте.
         Приношу свои извинения за скачок по сложности между задачами и за слабые претесты по некоторым задачам, учту это при дальнейшем составлении контестов.</string>
+    <string name="quickstart_message">Click the SUBSCRIBE TO NEWS button below to subscribe to the
+        news topic. Messages sent to the news topic will be received. The LOG TOKEN button logs the
+        InstanceID token to logcat.</string>
+    <string name="subscribe_to_news">Subscribe To News</string>
+    <string name="log_token">Log Token</string>
 
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <string name="default_notification_channel_name" translatable="true">News</string>
 </resources>

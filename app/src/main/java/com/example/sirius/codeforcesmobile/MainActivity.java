@@ -15,10 +15,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -29,10 +30,13 @@ import com.example.sirius.codeforcesmobile.Fragments.NewsFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NotificationFragment;
 import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
 import com.example.sirius.codeforcesmobile.Fragments.SearchFragment;
+import com.example.sirius.codeforcesmobile.Fragments.WebViewFragment;
+import com.example.sirius.codeforcesmobile.RecycleViewAdapter.contestRecyclerViewAdapter;
 import com.example.sirius.codeforcesmobile.connectionAPI.BlogResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.ContestResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.funcsAPI;
+import com.google.firebase.FirebaseApp;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,7 +53,9 @@ import retrofit2.Call;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
+    private FirebaseApp fbapp;
     private List<UserResult> userResult = null;
 
     NewsFragment fragment_news;
@@ -91,10 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     Boolean isLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                             .getBoolean("isLogin", false);
                     transaction = getFragmentManager().beginTransaction();
-                    if(!isLogin){
+                    if (!isLogin) {
                         transaction.replace(R.id.frameLayout, fragment_login);
-                    }
-                    else{
+                    } else {
                         transaction.replace(R.id.frameLayout, fragment_profile);
 
                     }
@@ -139,24 +144,23 @@ public class MainActivity extends AppCompatActivity {
         newsList.add("64613");
         */
 
-
-
-        api.getContests("false", contests ->{
-            if(contests!=null){
+        api.getContests("false", contests -> {
+            if (contests != null) {
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
                 List<ContestResult> contestResults = (List<ContestResult>) contests;
-                Date currentDate = new Date(System.currentTimeMillis());
-                long currentTime = currentDate.getTime()*1000;
-                for(int i=0;i<10;i++){
-                    if(contestResults.get(i).getStartTimeSeconds()>currentTime){
-                        String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
+                Date currentDate = new Date(System.currentTimeMillis() / 1000); //получение времени в системе
+                long currentTime = currentDate.getTime();
+                for (int i = 0; i < 10; i++) {
+                    if (contestResults.get(i).getStartTimeSeconds() > currentTime) {
+                        String url = "codeforces.com/contestRegistration/" + contestResults.get(i).getId().toString();
                         ContentValues values = new ContentValues();
+
                         values.put("id", contestResults.get(i).getId());
                         values.put("name", contestResults.get(i).getName());
                         values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
-                        values.put("duration", contestResults.get(i).getDurationSeconds());
+                        values.put("duration", (contestResults.get(i).getDurationSeconds()/3600));
                         values.put("url", url);
-                        db.insert("contests",null,values);
+                        db.insert("contests", null, values);
                     }
                 }
 
@@ -164,16 +168,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(true);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        }
-
-
-
+    }
 
 
     private void firstStartActivity() {
@@ -191,7 +192,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onContent(View view) {
-        Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
+        WebViewFragment fragment_webView;
+        FragmentTransaction transaction;
+        fragment_webView = new WebViewFragment();
+        transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment_webView);
+        transaction.commit();
     }
 
     public void editProfile(View view) {
@@ -232,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
             funcsAPI api = new funcsAPI();
 
             api.getBlog(resultList, blog -> {
+
                 BlogResult blogResult = (BlogResult) blog;
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
@@ -249,12 +256,14 @@ public class MainActivity extends AppCompatActivity {
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
 
+                if (db.rawQuery("SELECT * FROM blogs WHERE title ='"+Title+"' AND author='"+author+"';", null).getCount() == 0){
                 values.put("title", Title);
                 values.put("author", author);
                 values.put("date", Date);
                 values.put("content", formatedText.toString());
                 values.put("date_id", (millis/1000));
                 db.insert("blogs",null,  values);
+                }
                 db.close();
 
             });

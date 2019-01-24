@@ -137,7 +137,7 @@ public class funcsAPI {
         Call<Contests> call = null;
 
         try {
-            call = ((ContestsInterface) service).getContests(gym);
+            call = service.getContests(gym);
         } catch (Exception e) {
             Log.d("RETROFIT", Arrays.toString(e.getStackTrace()));
 
