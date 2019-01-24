@@ -48,22 +48,22 @@ public class SearchFragment extends Fragment implements TextView.OnEditorActionL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myFragmentView= inflater.inflate(R.layout.search_fragment,container, false);
-        editText = (EditText) myFragmentView.findViewById(R.id.editText);
+        editText = myFragmentView.findViewById(R.id.editText);
         editText.setOnEditorActionListener(this);
-        cardView = (CardView)myFragmentView.findViewById(R.id.cardView);
-        relativeLayout = (RelativeLayout)myFragmentView.findViewById(R.id.relativeLayout);
+        cardView = myFragmentView.findViewById(R.id.cardView);
+        relativeLayout = myFragmentView.findViewById(R.id.relativeLayout);
         cardView.setVisibility(View.INVISIBLE);
 
 
         //инициализаиция view элементов
-        rank = (TextView)myFragmentView.findViewById(R.id.rank);
-        handle = (TextView)myFragmentView.findViewById(R.id.handle);
-        first_name = (TextView)myFragmentView.findViewById(R.id.first_name);
-        nowRatingView = (TextView)myFragmentView.findViewById(R.id.nowRatingView);
-        maxRatingView = (TextView)myFragmentView.findViewById(R.id.maxRatingView);
-        maxRankView = (TextView)myFragmentView.findViewById(R.id.maxRankView);
-        contributionView = (TextView)myFragmentView.findViewById(R.id.contributionView);
-        frinedsView = (TextView)myFragmentView.findViewById(R.id.frinedsView);
+        rank = myFragmentView.findViewById(R.id.rank);
+        handle = myFragmentView.findViewById(R.id.handle);
+        first_name = myFragmentView.findViewById(R.id.first_name);
+        nowRatingView = myFragmentView.findViewById(R.id.nowRatingView);
+        maxRatingView = myFragmentView.findViewById(R.id.maxRatingView);
+        maxRankView = myFragmentView.findViewById(R.id.maxRankView);
+        contributionView = myFragmentView.findViewById(R.id.contributionView);
+        frinedsView = myFragmentView.findViewById(R.id.frinedsView);
         return myFragmentView;
     }
 

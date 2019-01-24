@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.TimeZone;
@@ -14,17 +12,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
-
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.Fragments.ContestFragment;
@@ -33,14 +29,13 @@ import com.example.sirius.codeforcesmobile.Fragments.NewsFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NotificationFragment;
 import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
 import com.example.sirius.codeforcesmobile.Fragments.SearchFragment;
-import com.example.sirius.codeforcesmobile.connectionAPI.ApiListResponse;
+import com.example.sirius.codeforcesmobile.Fragments.WebViewFragment;
+import com.example.sirius.codeforcesmobile.RecycleViewAdapter.contestRecyclerViewAdapter;
 import com.example.sirius.codeforcesmobile.connectionAPI.BlogResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.ContestResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
-import com.example.sirius.codeforcesmobile.connectionAPI.User;
-import com.example.sirius.codeforcesmobile.connectionAPI.UserInterface;
-import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.funcsAPI;
+import com.google.firebase.FirebaseApp;
 
 import org.jsoup.Jsoup;
 
@@ -51,7 +46,9 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
+    private FirebaseApp fbapp;
     private List<UserResult> userResult = null;
 
     NewsFragment fragment_news;
@@ -92,10 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     Boolean isLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                             .getBoolean("isLogin", false);
                     transaction = getFragmentManager().beginTransaction();
-                    if(!isLogin){
+                    if (!isLogin) {
                         transaction.replace(R.id.frameLayout, fragment_login);
-                    }
-                    else{
+                    } else {
                         transaction.replace(R.id.frameLayout, fragment_profile);
 
                     }
@@ -135,50 +131,52 @@ public class MainActivity extends AppCompatActivity {
         newsList.add("64685");
         newsList.add("64613");
 
+
         api.getBlog(newsList, blog -> {
             BlogResult blogResult = (BlogResult) blog;
 
             SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-
-            String Title = Jsoup.parse(blogResult.getTitle()).text();
+            //db.delete("blogs", null, null);
+            String title = Jsoup.parse(blogResult.getTitle()).text();
             String content = Jsoup.parse(blogResult.getContent()).text();
             String author = blogResult.getAuthorHandle();
             Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
-            long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
+            long millis = blogResult.getCreationTimeSeconds().longValue() * 1000;
             Date date = new Date(millis);
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String Date = sdf.format(date);
-            //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
-            //content = content.replace("'", " ");
+            String dateString = sdf.format(date);
             ContentValues values = new ContentValues();
 
-            values.put("title", Title);
-            values.put("author", author);
-            values.put("date", Date);
-            values.put("content", formatedText.toString());
-            values.put("date_id", (millis/1000));
-            db.insert("blogs",null,  values);
+            if (db.rawQuery("SELECT * FROM blogs WHERE title ='"+title+"' AND author='"+author+"';", null).getCount() == 0){
+                values.put("title", title);
+                values.put("author", author);
+                values.put("date", dateString);
+                values.put("content", formatedText.toString());
+                values.put("date_id", (millis / 1000));
+                db.insert("blogs", null, values);
+            }
             db.close();
-
         });
 
-        api.getContests("false", contests ->{
-            if(contests!=null){
+        api.getContests("false", contests -> {
+            if (contests != null) {
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
                 List<ContestResult> contestResults = (List<ContestResult>) contests;
-                Date currentDate = new Date(System.currentTimeMillis());
-                long currentTime = currentDate.getTime()*1000;
-                for(int i=0;i<10;i++){
-                    if(contestResults.get(i).getStartTimeSeconds()>currentTime){
-                        String url = "codeforces.com/contestRegistration/"+contestResults.get(i).getId().toString();
+                Date currentDate = new Date(System.currentTimeMillis() / 1000); //получение времени в системе
+                long currentTime = currentDate.getTime();
+                Toast.makeText(getApplicationContext(), String.valueOf(currentTime), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(currentDate)+ " "+ contestResults.get(0).getStartTimeSeconds(), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < 10; i++) {
+                    if (contestResults.get(i).getStartTimeSeconds() > currentTime) {
+                        String url = "codeforces.com/contestRegistration/" + contestResults.get(i).getId().toString();
                         ContentValues values = new ContentValues();
                         values.put("id", contestResults.get(i).getId());
                         values.put("name", contestResults.get(i).getName());
                         values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
-                        values.put("duration", contestResults.get(i).getDurationSeconds());
+                        values.put("duration", (contestResults.get(i).getDurationSeconds()/60));
                         values.put("url", url);
-                        db.insert("contests",null,values);
+                        db.insert("contests", null, values);
                     }
                 }
 
@@ -186,16 +184,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(true);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        }
-
-
-
+    }
 
 
     private void firstStartActivity() {
@@ -213,7 +208,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onContent(View view) {
-        Toast.makeText(getApplicationContext(), "овово ", Toast.LENGTH_SHORT).show();
+        WebViewFragment fragment_webView;
+        FragmentTransaction transaction;
+        fragment_webView = new WebViewFragment();
+        transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment_webView);
+        transaction.commit();
     }
 
     public void editProfile(View view) {
