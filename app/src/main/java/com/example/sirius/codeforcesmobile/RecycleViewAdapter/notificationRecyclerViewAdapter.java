@@ -13,14 +13,18 @@ import java.util.List;
 
 public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notificationRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<String> mTitle;
+    private List<String> mDate;
+    private List<String> mContent;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public notificationRecyclerViewAdapter(Context context, List<String> data) {
+    public notificationRecyclerViewAdapter(Context context, List<String> title,List<String> content,  List<String> date ) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.mTitle = title;
+        this.mContent = content;
+        this.mDate = date;
     }
 
     // inflates the row layout from xml when needed
@@ -33,24 +37,32 @@ public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notifi
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.round_nameTextView.setText(animal);
+        String title = mTitle.get(position);
+        String content = mContent.get(position);
+        String date = mDate.get(position);
+        holder.round_nameTextView.setText(title);
+        holder.text_new_tutorial.setText(content);
+        holder.date_notification.setText(date);
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mTitle.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView round_nameTextView;
+        TextView text_new_tutorial;
+        TextView date_notification;
 
         ViewHolder(View itemView) {
             super(itemView);
             round_nameTextView = itemView.findViewById(R.id.round_nameTextView);
+            text_new_tutorial = itemView.findViewById(R.id.text_new_tutorial);
+            date_notification = itemView.findViewById(R.id.date_notification);
             itemView.setOnClickListener(this);
         }
 
@@ -62,7 +74,7 @@ public class notificationRecyclerViewAdapter extends RecyclerView.Adapter<notifi
 
     // convenience method for getting data at click position
     public String getItem(int id) {
-        return mData.get(id);
+        return mTitle.get(id);
     }
 
     // allows clicks events to be caught

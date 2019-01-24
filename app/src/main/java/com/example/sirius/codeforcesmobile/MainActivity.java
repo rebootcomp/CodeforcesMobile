@@ -15,14 +15,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.Fragments.ContestFragment;
 import com.example.sirius.codeforcesmobile.Fragments.LoginFragment;
@@ -30,16 +27,12 @@ import com.example.sirius.codeforcesmobile.Fragments.NewsFragment;
 import com.example.sirius.codeforcesmobile.Fragments.NotificationFragment;
 import com.example.sirius.codeforcesmobile.Fragments.ProfileFragment;
 import com.example.sirius.codeforcesmobile.Fragments.SearchFragment;
-import com.example.sirius.codeforcesmobile.Fragments.WebViewFragment;
-import com.example.sirius.codeforcesmobile.RecycleViewAdapter.contestRecyclerViewAdapter;
 import com.example.sirius.codeforcesmobile.connectionAPI.BlogResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.ContestResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.UserResult;
 import com.example.sirius.codeforcesmobile.connectionAPI.funcsAPI;
-import com.google.firebase.FirebaseApp;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -47,9 +40,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -197,14 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).apply();
     }
 
-    public void onContent(View view) {
-        WebViewFragment fragment_webView;
-        FragmentTransaction transaction;
-        fragment_webView = new WebViewFragment();
-        transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.frameLayout, fragment_webView);
-        transaction.commit();
-    }
+
 
     public void editProfile(View view) {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
@@ -254,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
                 String Title = Jsoup.parse(blogResult.getTitle()).text();
-                String content = Jsoup.parse(blogResult.getContent()).text();
                 String author = blogResult.getAuthorHandle();
                 Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
                 long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
@@ -265,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
                 //content = content.replace("'", " ");
                 ContentValues values = new ContentValues();
-
                 if (db.rawQuery("SELECT * FROM blogs WHERE title ='"+Title+"' AND author='"+author+"';", null).getCount() == 0){
                 values.put("title", Title);
                 values.put("author", author);
@@ -275,12 +256,8 @@ public class MainActivity extends AppCompatActivity {
                 db.insert("blogs",null,  values);
                 }
                 db.close();
-
             });
-
         }
-
     }
-
 }
 

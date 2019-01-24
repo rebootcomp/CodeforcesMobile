@@ -32,13 +32,11 @@ public class NewsFragment extends Fragment implements newsRecyclerViewAdapter.It
         // TODO Auto-generated method stub
         View myFragmentView = inflater.inflate(R.layout.news_fragment, null);
 
-
         // data to populate the RecyclerView with
         ArrayList<String> titles = new ArrayList<>();
         ArrayList<String> authors = new ArrayList<>();
         ArrayList<String> dates = new ArrayList<>();
         ArrayList<String> contents = new ArrayList<>();
-
 
         //get data from db
         SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);

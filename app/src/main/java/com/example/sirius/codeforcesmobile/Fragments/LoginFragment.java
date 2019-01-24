@@ -61,9 +61,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 /**доделать ввод в бд**/
                 if(userResult.get(0).getRank()!=null){
                     db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
-                    Intent intent = new Intent(myFragmentView.getContext(), MainActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    FragmentTransaction transaction;
+                    ProfileFragment fragment_profile;
+                    fragment_profile = new ProfileFragment();
+                    transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frameLayout, fragment_profile);
+                    transaction.commit();
                     Log.d("RETROFIT", userResult.toString());
                 }
                 else{
