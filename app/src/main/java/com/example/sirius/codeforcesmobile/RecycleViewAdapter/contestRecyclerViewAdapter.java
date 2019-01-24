@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.sirius.codeforcesmobile.Fragments.WebViewFragment;
 import com.example.sirius.codeforcesmobile.LoginActivity;
+import com.example.sirius.codeforcesmobile.MainActivity;
 import com.example.sirius.codeforcesmobile.R;
 import com.example.sirius.codeforcesmobile.WebViewActivity;
 
@@ -24,14 +25,19 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
     private List<String> mTitle;
     private List<String> mDate;
     private List<String> mDuration;
+    private List<String> mURL;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    private String title;
+    private String duration;
+    private String date;
+    private String url;
 
     // data is passed into the constructor
-    public contestRecyclerViewAdapter(Context context, List<String> titles, List<String> dates, List<String> durations) {
+    public contestRecyclerViewAdapter(Context context, List<String> titles, List<String> dates, List<String> durations, List<String> urls) {
         this.mInflater = LayoutInflater.from(context);
         this.mTitle = titles;
         this.mDate = dates;
+        this.mURL = urls;
         this.mDuration = durations;
     }
 
@@ -45,11 +51,14 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String title = mTitle.get(position);
-        String date = mDate.get(position);
-        String duration = mDuration.get(position);
+
+        title = mTitle.get(position);
+        date = mDate.get(position);
+        duration = mDuration.get(position);
+        url = mURL.get(position);
         holder.textViewTitle.setText(title);
         holder.textViewDate.setText(date);
+        //Log.d("DATE", date);
         holder.textViewDuration.setText(duration+" часа");
     }
 
@@ -83,32 +92,28 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
         public void onClick(View view) {
             switch(view.getId()) {
                 case R.id.buttonRegist :
-
-                    WebViewFragment fragment_webView;
-                    FragmentTransaction transaction;
-                    fragment_webView = new WebViewFragment();
-
-
-//                    transaction = getFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.frameLayout, fragment_webView);
-//                    transaction.commit();
-
+                    //Log.d(getItem())
                     Intent intent = new Intent(view.getContext(), WebViewActivity.class);
+                    //Toast.makeText(view.getContext(), String.valueOf(getItem()), Toast.LENGTH_SHORT).show();
+                    //intent.putExtra("fname", );
+                    //intent.putExtra("idArticle",headerArticle.getTag().toString());
                     view.getContext().startActivity(intent);
 
                     break;
             }
         }
     }
-
     // convenience method for getting data at click position
-    public String getItem(int id) {
+    public String getItemTitle(int id) {
         return mTitle.get(id);
+    }
+    public String getItemURL(int id) {
+        return mURL.get(id);
     }
 
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+        ItemClickListener mClickListener = itemClickListener;
     }
 
     // parent activity will implement this method to respond to click events

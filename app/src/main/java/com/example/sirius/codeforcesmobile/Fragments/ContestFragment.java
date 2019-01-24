@@ -1,15 +1,19 @@
 package com.example.sirius.codeforcesmobile.Fragments;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.TimeZone;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ import com.example.sirius.codeforcesmobile.RecycleViewAdapter.contestRecyclerVie
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -29,6 +34,7 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
 
 
     contestRecyclerViewAdapter adapter;
+    @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,20 +46,25 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> dates = new ArrayList<>();
         ArrayList<String> durations = new ArrayList<>();
+        ArrayList<String> urls = new ArrayList<>();
 
 
         //get data from db
         SQLiteDatabase db = myFragmentView.getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        Cursor query = db.rawQuery("SELECT * FROM contests ORDER BY startTimeSeconds ASC", null);
+        Date currentDate = new Date(System.currentTimeMillis() / 1000);
+        long currentTime = currentDate.getTime();
+        Cursor query = db.rawQuery("SELECT * FROM contests WHERE startTimeSeconds > "+ currentTime +" ORDER BY startTimeSeconds ASC", null);
         if(query.moveToFirst()){
             do{
                 String title = query.getString(1);
-                Date currentDate = new Date(query.getLong(2));
+                String date = query.getString(5);//Log.d("DATE",String.valueOf(dateLong));
                 String duration = query.getString(3);
+                String url = query.getString(4);
                 //Toast.makeText(getContext(),query.getString(1), Toast.LENGTH_SHORT).show();
                 names.add(title);
-                dates.add(String.valueOf(currentDate));
+                dates.add(date);
                 durations.add(duration);
+                urls.add(url);
             }
             while(query.moveToNext());
         }
@@ -63,13 +74,13 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewContest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new contestRecyclerViewAdapter(getContext(), names, dates, durations);
+        adapter = new contestRecyclerViewAdapter(getContext(), names, dates, durations, urls);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;
     }
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "You clicked "+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "You clicked "+adapter.getItemURL(position), Toast.LENGTH_SHORT).show();
     }
 
 }
