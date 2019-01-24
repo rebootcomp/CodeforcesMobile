@@ -47,6 +47,7 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         ArrayList<String> dates = new ArrayList<>();
         ArrayList<String> durations = new ArrayList<>();
         ArrayList<String> urls = new ArrayList<>();
+        ArrayList<String> times = new ArrayList<>();
 
 
         //get data from db
@@ -60,11 +61,18 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
                 String date = query.getString(5);//Log.d("DATE",String.valueOf(dateLong));
                 String duration = query.getString(3);
                 String url = query.getString(4);
+                Long startTime = query.getLong(2);
                 //Toast.makeText(getContext(),query.getString(1), Toast.LENGTH_SHORT).show();
                 names.add(title);
                 dates.add(date);
                 durations.add(duration);
                 urls.add(url);
+                Date sysTime = new Date(System.currentTimeMillis() / 1000); //получение времени в системе
+                long sysTimeLong = sysTime.getTime();
+                long sec = startTime-sysTimeLong;
+                long hour = sec/3600;
+                long min = (sec%3600)/60;
+                times.add(String.valueOf(hour)+" ч. " + String.valueOf(min)+" мин." );
             }
             while(query.moveToNext());
         }
@@ -74,7 +82,7 @@ public class ContestFragment extends Fragment implements contestRecyclerViewAdap
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewContest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new contestRecyclerViewAdapter(getContext(), names, dates, durations, urls);
+        adapter = new contestRecyclerViewAdapter(getContext(), names, dates, durations, urls, times);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;

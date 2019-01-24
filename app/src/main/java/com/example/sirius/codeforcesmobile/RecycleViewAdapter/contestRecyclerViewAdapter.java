@@ -1,6 +1,5 @@
 package com.example.sirius.codeforcesmobile.RecycleViewAdapter;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,33 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.sirius.codeforcesmobile.Fragments.WebViewFragment;
-import com.example.sirius.codeforcesmobile.LoginActivity;
-import com.example.sirius.codeforcesmobile.MainActivity;
 import com.example.sirius.codeforcesmobile.R;
 import com.example.sirius.codeforcesmobile.WebViewActivity;
 
 import java.util.List;
 
-public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecyclerViewAdapter.ViewHolder> {
+public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecyclerViewAdapter.ViewHolder>  {
 
     private List<String> mTitle;
     private List<String> mDate;
+    private List<String> mTime;
     private List<String> mDuration;
     private List<String> mURL;
     private LayoutInflater mInflater;
     private String title;
     private String duration;
     private String date;
+    private String time;
     private String url;
 
     // data is passed into the constructor
-    public contestRecyclerViewAdapter(Context context, List<String> titles, List<String> dates, List<String> durations, List<String> urls) {
+    public contestRecyclerViewAdapter(Context context, List<String> titles, List<String> dates, List<String> durations, List<String> urls, List<String> times) {
         this.mInflater = LayoutInflater.from(context);
         this.mTitle = titles;
         this.mDate = dates;
+        this.mTime = times;
         this.mURL = urls;
         this.mDuration = durations;
     }
@@ -54,10 +52,12 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
 
         title = mTitle.get(position);
         date = mDate.get(position);
+        time = mTime.get(position);
         duration = mDuration.get(position);
         url = mURL.get(position);
         holder.textViewTitle.setText(title);
         holder.textViewDate.setText(date);
+        holder.textViewToStart.setText(time);
         //Log.d("DATE", date);
         holder.textViewDuration.setText(duration+" часа");
     }
@@ -74,6 +74,7 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
         TextView textViewTitle;
         TextView textViewDate;
         TextView textViewDuration;
+        TextView textViewToStart;
         Button button;
 
         ViewHolder(View itemView) {
@@ -81,24 +82,22 @@ public class contestRecyclerViewAdapter extends RecyclerView.Adapter<contestRecy
             textViewTitle = itemView.findViewById(R.id.textViewContest);
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewDuration = itemView.findViewById(R.id.textViewDuration);
+            textViewToStart = itemView.findViewById(R.id.textViewToStart);
             button = itemView.findViewById(R.id.buttonRegist);
             //itemView.setOnClickListener(this);
             button.setOnClickListener(this);
-
         }
 
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
             switch(view.getId()) {
                 case R.id.buttonRegist :
-                    //Log.d(getItem())
+                    Log.d("URL", getItemURL(position));
                     Intent intent = new Intent(view.getContext(), WebViewActivity.class);
-                    //Toast.makeText(view.getContext(), String.valueOf(getItem()), Toast.LENGTH_SHORT).show();
-                    //intent.putExtra("fname", );
-                    //intent.putExtra("idArticle",headerArticle.getTag().toString());
+                    intent.putExtra("URL", getItemURL(position));
                     view.getContext().startActivity(intent);
-
                     break;
             }
         }

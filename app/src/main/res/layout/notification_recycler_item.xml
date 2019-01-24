@@ -18,10 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Round_name"
-            android:textColor="#333333"
-            android:textSize="34sp"/>
+            android:textColor="#6472a5"
+            android:textSize="25sp" />
 
-            <TextView
+        <TextView
             android:id="@+id/text_new_tutorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,18 +29,16 @@
             android:layout_marginTop="5dp"
             android:text="Появился разбор задач"
             android:textColor="#333333"
-            android:textSize="24sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/date_notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_new_tutorial"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:text="date"
             android:textColor="#333333"
             android:textSize="18sp"/>
     </RelativeLayout>
-
-
 </android.support.v7.widget.CardView>

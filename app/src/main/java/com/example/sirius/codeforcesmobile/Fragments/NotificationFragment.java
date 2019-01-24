@@ -27,23 +27,29 @@ public class NotificationFragment extends Fragment implements notificationRecycl
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View myFragmentView = inflater.inflate(R.layout.notification_fragment, null);
-
         // data to populate the RecyclerView with
-        ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("Title ");
-
+        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
+        ArrayList<String> dates = new ArrayList<>();
+        titles.add("Educational Codeforces Round 59 (рейтинговый для Див. 2)");
+        titles.add("Codeforces Round #535 (Div. 3)");
+        titles.add("Codeforces Round #535 (Div. 3)");
+        contents.add("Появилось новое соревнование");
+        contents.add("Появился разбор задач");
+        contents.add("До соревнования остался 1 час");
+        dates.add("24.01.2019");
+        dates.add("24.01.2019");
+        dates.add("23.01.2019");
 
         // set up the RecyclerView
         RecyclerView recyclerView = myFragmentView.findViewById(R.id.recycleViewNotification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new notificationRecyclerViewAdapter(getContext(), animalNames);
+        adapter = new notificationRecyclerViewAdapter(getContext(), titles, contents, dates);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return myFragmentView;
     }
-
     @Override
     public void onItemClick(View view, int position) {
-
     }
 }

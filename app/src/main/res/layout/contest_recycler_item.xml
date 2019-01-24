@@ -20,7 +20,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="Contest"
-            android:textColor="#333333"
+            android:textColor="#6472a5"
             android:textSize="34sp" />
 
         <TextView
@@ -38,10 +38,9 @@
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewContest"
+            android:layout_below="@+id/textDate"
             android:layout_marginStart="5dp"
             android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/textDate"
             android:text="Date"
             android:textColor="#333333"
             android:textSize="18sp"/>
