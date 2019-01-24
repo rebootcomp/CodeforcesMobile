@@ -54,8 +54,6 @@ import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
-    private FirebaseApp fbapp;
     private List<UserResult> userResult = null;
 
     NewsFragment fragment_news;
@@ -151,16 +149,24 @@ public class MainActivity extends AppCompatActivity {
                 Date currentDate = new Date(System.currentTimeMillis() / 1000); //получение времени в системе
                 long currentTime = currentDate.getTime();
                 for (int i = 0; i < 10; i++) {
+                    long time =  contestResults.get(i).getStartTimeSeconds();
+                    Date date = new Date(time*1000);
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy h:mm a", Locale.ENGLISH);
+                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    String Date = sdf.format(date);
                     if (contestResults.get(i).getStartTimeSeconds() > currentTime) {
                         String url = "codeforces.com/contestRegistration/" + contestResults.get(i).getId().toString();
                         ContentValues values = new ContentValues();
+                        if (db.rawQuery("SELECT * FROM contests WHERE startTimeSeconds = " + time+";", null).getCount() == 0){
+                            values.put("id", contestResults.get(i).getId());
+                            values.put("name", contestResults.get(i).getName());
+                            values.put("startTimeSeconds", time);
+                            values.put("duration", (contestResults.get(i).getDurationSeconds()/3600));
+                            values.put("url", url);
+                            values.put("date", Date);
+                            db.insert("contests", null, values);
+                        }
 
-                        values.put("id", contestResults.get(i).getId());
-                        values.put("name", contestResults.get(i).getName());
-                        values.put("startTimeSeconds", contestResults.get(i).getStartTimeSeconds());
-                        values.put("duration", (contestResults.get(i).getDurationSeconds()/3600));
-                        values.put("url", url);
-                        db.insert("contests", null, values);
                     }
                 }
 
@@ -220,10 +226,14 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.d("JSOUP", e.getMessage());
             }
-            Elements listNews = doc.getElementById("pageContent").getElementsByClass("title");
-            for (Element element : listNews.select("a"))
-                resultList.add(element.attr("href").replace("/blog/entry/",""));
-               // Log.d("JSOUP", element.attr("href").replace("/blog/entry/",""));
+            if (doc != null) {
+                Elements listNews = doc.getElementById("pageContent").getElementsByClass("title");
+
+                for (Element element : listNews.select("a"))
+                    resultList.add(element.attr("href").replace("/blog/entry/",""));
+                // Log.d("JSOUP", element.attr("href").replace("/blog/entry/",""));
+            }
+
             return resultList;
         }
 
@@ -249,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 Spannable formatedText = (Spannable) Html.fromHtml(blogResult.getContent());
                 long millis =blogResult.getCreationTimeSeconds().longValue() * 1000;
                 Date date = new Date(millis);
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy h:mm a", Locale.ENGLISH);
                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String Date = sdf.format(date);
                 //Toast.makeText(getApplicationContext(),Date,Toast.LENGTH_SHORT).show();
@@ -271,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
 

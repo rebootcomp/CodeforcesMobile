@@ -28,7 +28,6 @@ public class NotificationFragment extends Fragment implements notificationRecycl
         // TODO Auto-generated method stub
         View myFragmentView = inflater.inflate(R.layout.notification_fragment, null);
 
-
         // data to populate the RecyclerView with
         ArrayList<String> animalNames = new ArrayList<>();
         animalNames.add("Title ");

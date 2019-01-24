@@ -54,10 +54,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         funcsAPI api = new funcsAPI();
 
         api.getUsers(login, users -> {
-            if(users!=null) {
+                if(users!=null) {
                 SQLiteDatabase db = getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
                 List<UserResult> userResult = null;
-                userResult = (List<UserResult>) users;
+                userResult = (List<UserResult>)users;
                 /**доделать ввод в бд**/
                 if(userResult.get(0).getRank()!=null){
                     db.execSQL("INSERT INTO users VALUES ('" + userResult.get(0).getRank() + "','" + userResult.get(0).getHandle() + "', '" + userResult.get(0).getFirstName() + "','" + userResult.get(0).getLastName() + "','" + userResult.get(0).getRating().toString() + "','" + userResult.get(0).getMaxRating().toString() + "','" + userResult.get(0).getMaxRank() + "','" + userResult.get(0).getContribution().toString() + "','" + userResult.get(0).getFriendOfCount().toString() + "');'");
@@ -79,21 +79,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }else{
                 getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                         .putBoolean("isLogin", false).apply();
-                Toast.makeText(getContext().getApplicationContext(),"Пользователь введен не верно",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext().getApplicationContext(),"Пользователь введен неверно",Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    //    private void isLogin() {
-//        Boolean isLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-//                .getBoolean("isLogin", true);
-//
-//        if (isLogin) {
-//            //show start activity
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
-//
-//        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-//                .putBoolean("isFirstRun", false).apply();
-//    }
 }
